@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="../content/shared/styles/examples-offline.css" rel="stylesheet">
+<link href="../../styles/kendo.common.min.css" rel="stylesheet">
+<link href="../../styles/kendo.rtl.min.css" rel="stylesheet">
+<link href="../../styles/kendo.default.min.css" rel="stylesheet">
+<link href="../../styles/kendo.default.mobile.min.css" rel="stylesheet">
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/jszip.min.js"></script>
+<script src="../../js/kendo.all.min.js"></script>
+<script src="../content/shared/js/console.js"></script>
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa  fa-space-shuttle"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Upcoming Order</span>
+                    <span class="info-box-number">4</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-shopping-cart"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">New Order</span>
+                    <span class="info-box-number">19</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+      
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-truck"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Handover Order</span>
+                    <span class="info-box-number">25</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-rocket"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Sale Order</span>
+                    <span class="info-box-number">2,000</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <div id="example">
+    <div class="demo-section k-content wide">
+        <div id="chart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+    </div>
+    <script>
+
+
+        function createChart() {
+
+
+            var dataSource1 = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "http://localhost:8191/home/GetIsSolvedReport",
+                        dataType: "jsonp" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
+                    }
+                },
+                change: function (e) {
+                    debugger
+                    alert(1);
+                    var data = this.data();
+                    alert(data.length);
+                    console.log(data.length); // displays "77"
+                }
+            });
+            dataSource1.fetch();
+
+
+            var a = [4, 2, 4, 5, 7];
+            debugger
+            var TotalSolved = [];
+            var TotalUnSolved = [];
+            var Dates = [];
+            //$.ajax({
+            //    type: 'GET',
+            //    url: "/home/GetIsSolvedReport",
+            //    dataType: 'json',
+            //    data: null,
+            //    success: function (data) {
+            //        debugger
+            //        TotalSolved = data.TotalSolved.split(',');
+            //        TotalUnSolved = data.TotalUnSolved.split(',');
+            //    },
+            //    error: function (ex) {
+                    
+            //        alert('Failed.' + ex);
+            //    }
+            //});
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "/home/GetIsSolvedReport",
+                        dataType: "json" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
+                    }
+                },
+                change: function (e) {
+                    debugger
+                   
+                    var data = this.data();
+                    //TotalSolved = data.TotalSolved.split(',');
+                    //TotalUnSolved = data.TotalUnSolved.split(',');
+                    //console.log(data.length); // displays "77"
+                   // alert(TotalSolved);
+                }
+            });
+
+            //dataSource.fetch();
+            $("#chart").kendoChart({
+
+                dataSource: dataSource,
+
+                title: {
+                    text: "Site Visitors Stats \n /thousands/"
+                },
+                legend: {
+                    visible: false
+                },
+                seriesDefaults: {
+                    type: "column"
+                },
+                series: [{
+                    name: "Total Visits",
+                    data: TotalSolved
+                }, {
+                    name: "Unique visitors",
+                    data: TotalUnSolved
+                }],
+                valueAxis: {
+                   // max: 50,
+                    line: {
+                        visible: false
+                    },
+                    minorGridLines: {
+                        visible: true
+                    },
+                    labels: {
+                        rotation: "auto"
+                    }
+                },
+                categoryAxis: {
+                    categories: ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                    majorGridLines: {
+                        visible: false
+                    }
+                },
+                tooltip: {
+                    visible: true,
+                    template: "#= series.name #: #= value #"
+                }
+            });
+        }
+
+        $(document).ready(createChart);
+        $(document).bind("kendo:skinChange", createChart);
+    </script>
+</div>
+        </div>
+
+        <div class="col-md-4">
+           
+        </div>
+
+
+    </div>
+
+
+</section>
+

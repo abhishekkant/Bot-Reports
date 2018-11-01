@@ -1,0 +1,65 @@
+﻿@*Partial view For Massage Notification (Inster,Update,Error)*@
+@{
+
+    var MsgNotification = (Utility.MsgNotification)TempData["MsgNotification"];
+
+    if (MsgNotification != null)
+    {
+        if (MsgNotification.Massage != null && MsgNotification.Status != null)
+        {
+            string alterclass = String.Empty;
+            string status = Convert.ToString(MsgNotification.Status).ToLower();
+            string alertMsg = Convert.ToString(MsgNotification.Massage).ToLower();
+            switch (status)
+            {
+                case "success":
+                    alterclass = "alert-success";
+                    status = "Success!";
+                    break;
+                case "update":
+                    alterclass = "alert-success";
+                    status = "Update!";
+                    break;
+                case "exists":
+                    alterclass = "alert-danger";
+                    status = "Exists!";
+                    break;
+                case "error":
+                    alterclass = "alert-danger";
+                    status = "Warning";
+                    break;
+                default:
+                    alterclass = "alert-warning";
+                    alertMsg = "Oops! Something is going Worng!!";
+                    //status = "Oops!";
+                    break;
+
+            }
+            if (status != "")
+            {
+                <div class="alert @alterclass alert-dismissable" style="text-transform:capitalize">
+                    <a href="#" class="close" data-dismiss="alert" title="Close" aria-label="close">&times;</a>
+                    <strong>@status</strong> @alertMsg.
+                </div>
+            }
+           
+
+        }
+        @*else
+            {
+                <div class="alert alert-warning alert-dismissable" style="text-transform:capitalize">
+                    <a href="#" class="close" data-dismiss="alert" title="Close" aria-label="close">&times;</a>
+                    <strong>Oops!</strong> Something is going Worng!!.
+                </div>
+
+            }*@
+    }
+    else if (ViewBag.Message != null)
+    {
+        <div class="alert alert-warning alert-dismissable" style="text-transform:capitalize">
+            <a href="#" class="close" data-dismiss="alert" title="Close" aria-label="close">&times;</a>
+            <strong>Alert- </strong> @ViewBag.Message
+        </div>
+    }
+}
+

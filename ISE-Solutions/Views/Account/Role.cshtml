@@ -1,0 +1,121 @@
+﻿@model  DataLayer.Role
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .role-table th:last-child { width:10%;
+    }
+
+</style>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    @Html.Partial("_MsgNotification")
+    <h1>
+      
+        <small></small>
+    </h1>
+    @*<ol class="breadcrumb hidden">
+            <li><a href="#"> Home</a></li>
+            <li><a href="#"> Add</a></li>
+            <li><a href="#"> Employee</a></li>
+            <li class="active"> Add Employee</li>
+
+        </ol>*@
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    @{
+        using (Html.BeginForm("InsertOrUpdateRole", "Account", FormMethod.Post))
+        {
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"> Role</h3>
+                            <div class="pull-right">
+                                @*<a href="/Admin/Customer/Create" class="btn bg-blue">
+                                        <i class="fa fa-plus-square"></i>
+                                         Add
+                                    </a>*@
+                                @*@if (!string.IsNullOrEmpty(Model.RoleID))
+                                {
+                                    <input type="submit" value="Update" name="btnSaveType" class="btn bg-green" />
+                                }
+                                else
+                                {
+                                    
+                                }*@
+                                <input type="submit" id="savebtn"  name="btnSaveType" class="btn bg-blue" />
+
+                            </div>
+                        </div>
+                        <!-- _register.cshtml -->
+
+
+                        <div class="box-body">
+                            <br />
+                            <div class="form-horizontal">
+                                <div class="col-md-6">
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Role:</label>
+                                        <div class="col-sm-8">
+                                            @*<input class="form-control" id="fristname" name="fristname" placeholder="Frist Name" type="text">*@
+                                            @Html.TextBoxFor(m => m.RoleName, new { name = "RoleName", placeholder = "Role", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.RoleName)
+                                          
+                                            @Html.Hidden("initialRoleName")
+                                            @Html.HiddenFor(m=>m.RoleID)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Description:</label>
+                                        <div class="col-sm-8">
+                                            @*<input class="form-control" id="fristname" name="fristname" placeholder="Frist Name" type="text">*@
+                                            @Html.TextAreaFor(m => m.Description, new { id = "Description", name = "Description", placeholder = "Description", @class = "form-control" })
+                                           
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Active:</label>
+                                        <div class="col-sm-8">
+                                            <div class="checkbox">
+                                                <label>
+                                                    @*<input type="checkbox"  name="active" id="active" checked="checked" value="1">*@
+                                                    @Html.CheckBoxFor(m => m.IsActive, new { id = "active", name = "active", @checked = "checked" })
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-md-6">
+
+                                </div>
+
+                            </div>
+                            <!-- /.col -->
+                            <table class="table table-striped role-table" id="grid" data-source="@Url.Action("GetRoles","Account")"></table>
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+
+    @Styles.Render("~/Content/GridCss")
+    @Scripts.Render("~/jscript/GridJs")
+    <script src="~/JScript/Account.js"></script>
+</section>
+
+<!-- /.content -->

@@ -1,0 +1,79 @@
+﻿@using System.Web.Optimization;
+@model ISE_Solutions.Model.HomeLoginViewModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Css/css")
+  
+</head>
+@{
+    string Message = string.Empty;
+    if (ViewData["Message"] != null)
+    {
+        Message = ViewData["Message"].ToString();
+    }
+
+}
+
+
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            @*<img src=@Href("~/Content/Images/logo.png") title="Login" alt="Login">*@
+        </div>
+        <!-- /.login-logo -->
+        <p class="login-box-msg">Login </p>
+        <div class="login-box-body">
+            
+            @using (Html.BeginForm("getLogin", "Login", FormMethod.Post))
+            {
+
+                <div class="form-group">
+                    <label for="UserId" class="sr-only"> User Name</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user fa-lg "></i></span>
+                        @Html.TextBoxFor(m => m.UserId, new {id= "UserId", name= "UserId", placeholder = "User Name", @class = "form-control" , @maxlength = "50" })
+                       
+                    </div>
+                    @Html.ValidationMessageFor(m => m.UserId)
+                </div>
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock fa-lg "></i></span>
+                        @Html.TextBoxFor(m => m.Password, new { id = "Password", name = "Password", placeholder = "Password", @class = "form-control form-control-lg", @type = "password",@maxlength="50" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 pull-right no-padding" style="margin:0 15px 0 10px; ">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                    </div>
+                </div>
+                if (!string.IsNullOrEmpty(Message))
+                {
+                    <div class="row">
+                        <span style="color:red">@Message</span>
+                    </div>
+                }
+            }
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<!-- Your Page Content Here -->
+@Scripts.Render("~/bundles/jqueryval")

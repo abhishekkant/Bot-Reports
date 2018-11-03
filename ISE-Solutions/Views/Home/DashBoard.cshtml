@@ -86,22 +86,22 @@
         function createChart() {
 
 
-            var dataSource1 = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: "http://localhost:8191/home/GetIsSolvedReport",
-                        dataType: "jsonp" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
-                    }
-                },
-                change: function (e) {
-                    debugger
-                    alert(1);
-                    var data = this.data();
-                    alert(data.length);
-                    console.log(data.length); // displays "77"
-                }
-            });
-            dataSource1.fetch();
+            //var dataSource1 = new kendo.data.DataSource({
+            //    transport: {
+            //        read: {
+            //            url: "http://localhost:8191/home/GetIsSolvedReport",
+            //            dataType: "jsonp" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
+            //        }
+            //    },
+            //    change: function (e) {
+            //        debugger
+            //        alert(1);
+            //        var data = this.data();
+            //        alert(data.length);
+            //        console.log(data.length); // displays "77"
+            //    }
+            //});
+            //dataSource1.fetch();
 
 
             var a = [4, 2, 4, 5, 7];
@@ -109,83 +109,100 @@
             var TotalSolved = [];
             var TotalUnSolved = [];
             var Dates = [];
-            //$.ajax({
-            //    type: 'GET',
-            //    url: "/home/GetIsSolvedReport",
-            //    dataType: 'json',
-            //    data: null,
-            //    success: function (data) {
-            //        debugger
-            //        TotalSolved = data.TotalSolved.split(',');
-            //        TotalUnSolved = data.TotalUnSolved.split(',');
-            //    },
-            //    error: function (ex) {
-                    
-            //        alert('Failed.' + ex);
-            //    }
-            //});
-            var dataSource = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: "/home/GetIsSolvedReport",
-                        dataType: "json" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
-                    }
-                },
-                change: function (e) {
+            $.ajax({
+                type: 'GET',
+                url: "/home/GetIsSolvedReport",
+                dataType: 'json',
+                data: null,
+                success: function (data) {
                     debugger
-                   
-                    var data = this.data();
                     //TotalSolved = data.TotalSolved.split(',');
                     //TotalUnSolved = data.TotalUnSolved.split(',');
-                    //console.log(data.length); // displays "77"
-                   // alert(TotalSolved);
+                    var _bject = JSON.parse(data);
+                    $.each(_bject, function (key, value) {
+                        //alert(key + ": " + value.);
+                        TotalSolved.push(value.TotalSolved);
+                        TotalUnSolved.push(value.TotalUnSolved);
+                         Dates.push(value.Dates)
+                    });
+                    debugger
+                    for (var i=0; i < 5; i++)
+                    {
+                       // TotalSolved.push(i+2);
+                       // TotalUnSolved.push(i + 4);
+                    }
+
+
+                    $("#chart").kendoChart({
+
+                        // dataSource: dataSource,
+
+                        title: {
+                            text: "Site Visitors Stats \n /thousands/"
+                        },
+                        legend: {
+                            visible: false
+                        },
+                        seriesDefaults: {
+                            type: "column"
+                        },
+                        series: [{
+                            name: "Total Visits",
+                            data: TotalSolved
+                        }, {
+                            name: "Unique visitors",
+                            data: TotalUnSolved
+                        }],
+                        valueAxis: {
+                            // max: 50,
+                            line: {
+                                visible: false
+                            },
+                            minorGridLines: {
+                                visible: true
+                            },
+                            labels: {
+                                rotation: "auto"
+                            }
+                        },
+                        categoryAxis: {
+                            categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                            majorGridLines: {
+                                visible: false
+                            }
+                        },
+                        tooltip: {
+                            visible: true,
+                            template: "#= series.name #: #= value #"
+                        }
+                    });
+                },
+                error: function (ex) {
+                    
+                    alert('Failed.' + ex);
                 }
             });
+
+            //var dataSource = new kendo.data.DataSource({
+            //    transport: {
+            //        read: {
+            //            url: "/home/GetIsSolvedReport",
+            //            dataType: "json" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
+            //        }
+            //    },
+            //    change: function (e) {
+            //        debugger
+                   
+            //        var data = this.data();
+            //        //TotalSolved = data.TotalSolved.split(',');
+            //        //TotalUnSolved = data.TotalUnSolved.split(',');
+            //        //console.log(data.length); // displays "77"
+            //       // alert(TotalSolved);
+            //    }
+            //});
 
             //dataSource.fetch();
-            $("#chart").kendoChart({
-
-                dataSource: dataSource,
-
-                title: {
-                    text: "Site Visitors Stats \n /thousands/"
-                },
-                legend: {
-                    visible: false
-                },
-                seriesDefaults: {
-                    type: "column"
-                },
-                series: [{
-                    name: "Total Visits",
-                    data: TotalSolved
-                }, {
-                    name: "Unique visitors",
-                    data: TotalUnSolved
-                }],
-                valueAxis: {
-                   // max: 50,
-                    line: {
-                        visible: false
-                    },
-                    minorGridLines: {
-                        visible: true
-                    },
-                    labels: {
-                        rotation: "auto"
-                    }
-                },
-                categoryAxis: {
-                    categories: ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
-                    majorGridLines: {
-                        visible: false
-                    }
-                },
-                tooltip: {
-                    visible: true,
-                    template: "#= series.name #: #= value #"
-                }
-            });
+           
         }
 
         $(document).ready(createChart);

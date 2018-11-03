@@ -78,9 +78,9 @@ namespace ISE_Solutions.Controllers
                             DataList.isSolvedFalse += 1;
                         }
                     }
-                    resultdata.TotalSolved += DataList.isSolvedTrue + ", ";
-                    resultdata.TotalUnSolved += DataList.isSolvedFalse + ", ";
-                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM yyyy") + ", ";
+                    resultdata.TotalSolved += DataList.isSolvedTrue; //+ ", ";
+                    resultdata.TotalUnSolved += DataList.isSolvedFalse;// + ", ";
+                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM yyyy");// + ", ";
 
                     ResultRecordJson.Add(resultdata);
                     //IsSolvedRecordJson.Add(DataList);

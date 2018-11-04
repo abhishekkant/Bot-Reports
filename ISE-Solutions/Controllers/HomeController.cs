@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Azure; // Namespace for CloudConfigurationManager
 using Microsoft.Azure.Storage; // Namespace for StorageAccounts
-using Microsoft.Azure.CosmosDB.Table; // Namespace for Table storage types
+using Microsoft.WindowsAzure.Storage.Table;
+//using Microsoft.Azure.CosmosDB.Table; // Namespace for Table storage types
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Linq;
 using Newtonsoft.Json;
+using Microsoft.WindowsAzure.Storage;
 
 namespace ISE_Solutions.Controllers
 {
@@ -29,7 +31,7 @@ namespace ISE_Solutions.Controllers
            
         }
         [HttpGet]
-        public JsonResult GetIsSolvedReport(string query, string country)
+        public async Task<JsonResult> GetIsSolvedReport(string query, string country)
         {
             string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
             List<SolutionProvidedReport2> IsSolvedRecordJson = new List<SolutionProvidedReport2>();
@@ -40,11 +42,12 @@ namespace ISE_Solutions.Controllers
                 string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 // Create the table client.
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
                 // Retrieve a reference to the table.
                 // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
                 table = tableClient.GetTableReference("SolutionProvidedReport");
 
+                await table.CreateIfNotExistsAsync();
 
                 string StartdateString = "2018-10-25T00:00:00.000Z";
                 string EnddateString = "2018-11-10T00:00:00.000Z";

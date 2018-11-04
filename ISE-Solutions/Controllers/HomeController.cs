@@ -47,7 +47,7 @@ namespace ISE_Solutions.Controllers
 
 
                 string StartdateString = "2018-10-25T00:00:00.000Z";
-                string EnddateString = "2018-10-30T00:00:00.000Z";
+                string EnddateString = "2018-11-10T00:00:00.000Z";
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
@@ -80,7 +80,7 @@ namespace ISE_Solutions.Controllers
                     }
                     resultdata.TotalSolved += DataList.isSolvedTrue; //+ ", ";
                     resultdata.TotalUnSolved += DataList.isSolvedFalse;// + ", ";
-                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM yyyy");// + ", ";
+                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM");// + ", ";
 
                     ResultRecordJson.Add(resultdata);
                     //IsSolvedRecordJson.Add(DataList);

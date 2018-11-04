@@ -75,37 +75,13 @@
 
     <div class="row">
 
-        <div class="col-md-8">
-            <div id="example">
+        <div class="col-md-6">
+    <div id="example">
     <div class="demo-section k-content wide">
         <div id="chart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
     </div>
     <script>
-
-
         function createChart() {
-
-
-            //var dataSource1 = new kendo.data.DataSource({
-            //    transport: {
-            //        read: {
-            //            url: "http://localhost:8191/home/GetIsSolvedReport",
-            //            dataType: "jsonp" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
-            //        }
-            //    },
-            //    change: function (e) {
-            //        debugger
-            //        alert(1);
-            //        var data = this.data();
-            //        alert(data.length);
-            //        console.log(data.length); // displays "77"
-            //    }
-            //});
-            //dataSource1.fetch();
-
-
-            var a = [4, 2, 4, 5, 7];
-            debugger
             var TotalSolved = [];
             var TotalUnSolved = [];
             var Dates = [];
@@ -115,30 +91,22 @@
                 dataType: 'json',
                 data: null,
                 success: function (data) {
-                    debugger
-                    //TotalSolved = data.TotalSolved.split(',');
-                    //TotalUnSolved = data.TotalUnSolved.split(',');
                     var _bject = JSON.parse(data);
                     $.each(_bject, function (key, value) {
-                        //alert(key + ": " + value.);
                         TotalSolved.push(value.TotalSolved);
                         TotalUnSolved.push(value.TotalUnSolved);
-                         Dates.push(value.Dates)
+                        Dates.push(value.Dates)
                     });
-                    debugger
-                    for (var i=0; i < 5; i++)
-                    {
-                       // TotalSolved.push(i+2);
-                       // TotalUnSolved.push(i + 4);
-                    }
-
-
+                    //debugger
+                    //for (var i=0; i < 5; i++)
+                    //{
+                    //   // TotalSolved.push(i+2);
+                    //   // TotalUnSolved.push(i + 4);
+                    //}
                     $("#chart").kendoChart({
 
-                        // dataSource: dataSource,
-
                         title: {
-                            text: "Site Visitors Stats \n /thousands/"
+                            text: "Bot Visitors Query Status"
                         },
                         legend: {
                             visible: false
@@ -147,11 +115,13 @@
                             type: "column"
                         },
                         series: [{
-                            name: "Total Visits",
-                            data: TotalSolved
+                            name: "Total Solved",
+                            data: TotalSolved,
+                            color: 'red'
                         }, {
-                            name: "Unique visitors",
-                            data: TotalUnSolved
+                                name: "Total Unsolved ",
+                                data: TotalUnSolved,
+                                color: 'blue'
                         }],
                         valueAxis: {
                             // max: 50,
@@ -208,11 +178,65 @@
         $(document).ready(createChart);
         $(document).bind("kendo:skinChange", createChart);
     </script>
-</div>
+        </div>
         </div>
 
-        <div class="col-md-4">
-           
+        <div class="col-md-6">
+            <div id="example">
+                <div class="demo-section k-content wide">
+                    <div id="chart1" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                </div>
+                <script>
+                    function createChart() {
+                        $("#chart1").kendoChart({
+                            title: {
+                                text: "Site Visitors Stats \n /thousands/"
+                            },
+                            legend: {
+                                visible: false
+                            },
+                            seriesDefaults: {
+                                type: "bar"
+                            },
+                            series: [{
+                                name: "Total Visits",
+                                data: [56000, 63000, 74000, 91000, 117000, 138000],
+                                color: 'black'
+                            }, {
+                                name: "Unique visitors",
+                                data: [52000, 34000, 23000, 48000, 67000, 83000],
+                                color: 'yellow'
+                            }],
+                            valueAxis: {
+                                max: 140000,
+                                line: {
+                                    visible: false
+                                },
+                                minorGridLines: {
+                                    visible: true
+                                },
+                                labels: {
+                                    rotation: "auto"
+                                }
+                            },
+                            categoryAxis: {
+                                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                                majorGridLines: {
+                                    visible: false
+                                }
+                            },
+                            tooltip: {
+                                visible: true,
+                                template: "#= series.name #: #= value #"
+                            }
+                        });
+                    }
+
+                    $(document).ready(createChart);
+                    $(document).bind("kendo:skinChange", createChart);
+                </script>
+            </div>
+
         </div>
 
 

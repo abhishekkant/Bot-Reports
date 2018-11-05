@@ -12,8 +12,247 @@
 <script src="../../js/jszip.min.js"></script>
 <script src="../../js/kendo.all.min.js"></script>
 <script src="../content/shared/js/console.js"></script>
+
+<script>
+    function createVisitorChart(StartDate, EndDate) {
+        var TotalSolved = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetIsSolvedReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    TotalSolved.push(value.TotalSolved);
+                    TotalUnSolved.push(value.TotalUnSolved);
+                    Dates.push(value.Dates)
+                });
+                //debugger
+                //for (var i=0; i < 5; i++)
+                //{
+                //   // TotalSolved.push(i+2);
+                //   // TotalUnSolved.push(i + 4);
+                //}
+                $("#IsSlovedchart").kendoChart({
+
+                    title: {
+                        text: "Bot Visitors Query Status"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "column"
+                    },
+                    series: [{
+                        name: "Total Solved",
+                        data: TotalSolved,
+                        color: 'red'
+                    }, {
+                        name: "Total Unsolved ",
+                        data: TotalUnSolved,
+                        color: 'blue'
+                    }],
+                    valueAxis: {
+                        // max: 50,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+
+    }
+
+    function createRatingChart(StartDate, EndDate) {
+        var TotalSolved = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetRatingReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    TotalSolved.push(value.TotalRating);
+                    TotalUnSolved.push(value.TotalNoRating);
+                    Dates.push(value.Dates)
+                });
+                //debugger
+                //for (var i=0; i < 5; i++)
+                //{
+                //   // TotalSolved.push(i+2);
+                //   // TotalUnSolved.push(i + 4);
+                //}
+                $("#Ratingchart").kendoChart({
+
+                    title: {
+                        text: "Rating Status"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "column"
+                    },
+                    series: [{
+                        name: "Total Rating",
+                        data: TotalSolved,
+                        color: 'green'
+                    }, {
+                        name: "Total No Rating ",
+                        data: TotalUnSolved,
+                        color: 'yellow'
+                    }],
+                    valueAxis: {
+                        // max: 50,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+    }
+    function createAvgRatingChart(StartDate, EndDate) {
+        var TotalAvgRating = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetAvgRatingReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    TotalAvgRating.push(value.AvgRating);
+                    //TotalUnSolved.push(value.TotalNoRating);
+                    Dates.push(value.Dates)
+                });
+                //debugger
+                //for (var i=0; i < 5; i++)
+                //{
+                //   // TotalSolved.push(i+2);
+                //   // TotalUnSolved.push(i + 4);
+                //}
+                $("#AvgRatingchart").kendoChart({
+
+                    title: {
+                        text: "Average Rating Status"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "column"
+                    },
+                    series: [{
+                        name: "Total Avg Rating",
+                        data: TotalAvgRating,
+                        color: 'purple'
+                    }
+                    //    ,
+                    //{
+                    //    name: "Total No Rating ",
+                    //    data: TotalUnSolved,
+                    //    color: 'yellow'
+                    //    }
+                    ],
+                    valueAxis: {
+                        max: 5,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+    }
+    // $(document).ready(createVisitorChart);
+    //$(document).bind("kendo:skinChange", createVisitorChart);
+    function ViewReport() {
+
+        var StartDate = $('#startdate').val();
+        var EndDate = $('#enddate').val();
+        createVisitorChart(StartDate, EndDate);
+        createRatingChart(StartDate, EndDate);
+        createAvgRatingChart(StartDate, EndDate);
+    }
+</script>
+
+
+
+
+
 <section class="content">
-    <div class="row">
+    @*<div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa  fa-space-shuttle"></i></span>
@@ -22,11 +261,11 @@
                     <span class="info-box-text">Upcoming Order</span>
                     <span class="info-box-number">4</span>
                 </div>
-                <!-- /.info-box-content -->
+
             </div>
-            <!-- /.info-box -->
+
         </div>
-        <!-- /.col -->
+
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-red"><i class="fa fa-shopping-cart"></i></span>
@@ -35,13 +274,12 @@
                     <span class="info-box-text">New Order</span>
                     <span class="info-box-number">19</span>
                 </div>
-                <!-- /.info-box-content -->
+
             </div>
-            <!-- /.info-box -->
+
         </div>
-        <!-- /.col -->
-        <!-- fix for small devices only -->
-      
+
+
 
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
@@ -51,11 +289,11 @@
                     <span class="info-box-text">Handover Order</span>
                     <span class="info-box-number">25</span>
                 </div>
-                <!-- /.info-box-content -->
+
             </div>
-            <!-- /.info-box -->
+
         </div>
-        <!-- /.col -->
+
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-yellow"><i class="fa fa-rocket"></i></span>
@@ -64,184 +302,59 @@
                     <span class="info-box-text">Sale Order</span>
                     <span class="info-box-number">2,000</span>
                 </div>
-                <!-- /.info-box-content -->
+
             </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
 
-
-    <div class="row">
-
-        <div class="col-md-6">
-    <div id="example">
-    <div class="demo-section k-content wide">
-        <div id="chart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
-    </div>
-    <script>
-        function createChart() {
-            var TotalSolved = [];
-            var TotalUnSolved = [];
-            var Dates = [];
-            $.ajax({
-                type: 'GET',
-                url: "/home/GetIsSolvedReport",
-                dataType: 'json',
-                data: null,
-                success: function (data) {
-                    var _bject = JSON.parse(data);
-                    $.each(_bject, function (key, value) {
-                        TotalSolved.push(value.TotalSolved);
-                        TotalUnSolved.push(value.TotalUnSolved);
-                        Dates.push(value.Dates)
-                    });
-                    //debugger
-                    //for (var i=0; i < 5; i++)
-                    //{
-                    //   // TotalSolved.push(i+2);
-                    //   // TotalUnSolved.push(i + 4);
-                    //}
-                    $("#chart").kendoChart({
-
-                        title: {
-                            text: "Bot Visitors Query Status"
-                        },
-                        legend: {
-                            visible: false
-                        },
-                        seriesDefaults: {
-                            type: "column"
-                        },
-                        series: [{
-                            name: "Total Solved",
-                            data: TotalSolved,
-                            color: 'red'
-                        }, {
-                                name: "Total Unsolved ",
-                                data: TotalUnSolved,
-                                color: 'blue'
-                        }],
-                        valueAxis: {
-                            // max: 50,
-                            line: {
-                                visible: false
-                            },
-                            minorGridLines: {
-                                visible: true
-                            },
-                            labels: {
-                                rotation: "auto"
-                            }
-                        },
-                        categoryAxis: {
-                            categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
-                            majorGridLines: {
-                                visible: false
-                            }
-                        },
-                        tooltip: {
-                            visible: true,
-                            template: "#= series.name #: #= value #"
-                        }
-                    });
-                },
-                error: function (ex) {
-                    
-                    alert('Failed.' + ex);
-                }
-            });
-
-            //var dataSource = new kendo.data.DataSource({
-            //    transport: {
-            //        read: {
-            //            url: "/home/GetIsSolvedReport",
-            //            dataType: "json" //"jsonp" is required for cross-domain requests; use "json" for same-domain requests
-            //        }
-            //    },
-            //    change: function (e) {
-            //        debugger
-                   
-            //        var data = this.data();
-            //        //TotalSolved = data.TotalSolved.split(',');
-            //        //TotalUnSolved = data.TotalUnSolved.split(',');
-            //        //console.log(data.length); // displays "77"
-            //       // alert(TotalSolved);
-            //    }
-            //});
-
-            //dataSource.fetch();
-           
-        }
-
-        $(document).ready(createChart);
-        $(document).bind("kendo:skinChange", createChart);
-    </script>
-        </div>
         </div>
 
+    </div>*@
+        <div class="row">
+
+        <div class="col-md-12">
+               <div class="form-group has-feedback">
+                <input type="date" style="width:200px;float:left; margin-right:2px" class="form-control" id="startdate" />
+                </div>
+            <div class="form-group has-feedback">
+                <input type="date"  style="width:200px;float:left;margin-right:2px"  class="form-control" id="enddate" />
+                </div>
+            <div class="form-group has-feedback">
+                <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
+               </div>
+            </div>
+        </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div id="example">
+                        <div class="demo-section k-content wide">
+                            <div id="IsSlovedchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div id="example">
+                        <div class="demo-section k-content wide">
+                            <div id="Ratingchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                        </div>
+                        
+                    </div>
+
+                </div>
+                
+               
+
+            </div>
+      <div class="row" style="margin-top:10px">
         <div class="col-md-6">
             <div id="example">
                 <div class="demo-section k-content wide">
-                    <div id="chart1" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                    <div id="AvgRatingchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                 </div>
-                <script>
-                    function createChart() {
-                        $("#chart1").kendoChart({
-                            title: {
-                                text: "Site Visitors Stats \n /thousands/"
-                            },
-                            legend: {
-                                visible: false
-                            },
-                            seriesDefaults: {
-                                type: "bar"
-                            },
-                            series: [{
-                                name: "Total Visits",
-                                data: [56000, 63000, 74000, 91000, 117000, 138000],
-                                color: 'black'
-                            }, {
-                                name: "Unique visitors",
-                                data: [52000, 34000, 23000, 48000, 67000, 83000],
-                                color: 'yellow'
-                            }],
-                            valueAxis: {
-                                max: 140000,
-                                line: {
-                                    visible: false
-                                },
-                                minorGridLines: {
-                                    visible: true
-                                },
-                                labels: {
-                                    rotation: "auto"
-                                }
-                            },
-                            categoryAxis: {
-                                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                                majorGridLines: {
-                                    visible: false
-                                }
-                            },
-                            tooltip: {
-                                visible: true,
-                                template: "#= series.name #: #= value #"
-                            }
-                        });
-                    }
-
-                    $(document).ready(createChart);
-                    $(document).bind("kendo:skinChange", createChart);
-                </script>
             </div>
 
         </div>
-
-
-    </div>
-
-
+        </div>
 </section>
 

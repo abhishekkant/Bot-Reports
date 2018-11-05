@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Masimart Seller Hub</title>
+    <title>Bot Report Chart</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -54,17 +54,17 @@
                 <div class="container-wrapper">
                     <a href="../../" class="navbar-brand logoadmin">
 
-                        <img src="@Href("~/Content/images/logoAdmin.png")" />
-
+                        @*<img src="@Href("~/Content/images/logoAdmin.png")" />*@
+                        BOT REPORT PANEL
                     </a>
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <li>
-                                        <a href="#" class="launch-modal" data-toggle="modal" data-target="#modal-video">
+                                        @*<a href="#" class="launch-modal" data-toggle="modal" data-target="#modal-video">
                                             <span class="video-link-icon"><i class="fa fa-play"></i></span>
                                             <span class="video-link-text">Excel Demo Video</span>
-                                        </a>
+                                        </a>*@
                             </li>
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
@@ -143,27 +143,27 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Listing <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                    
-                                    <li>@Html.ActionLink("Live Listing", "Publish", "Product", new { Area = "Catalog" }, null)</li>
-                                    <li>@Html.ActionLink("Non Live Listing", "list", "Product", new { Area = "Catalog" }, null)</li>
-                                    <li>@Html.ActionLink("Add New Listing", "ProductUpload", "Product", new { Area = "Catalog" }, null)</li>
-                                    @*<li>@Html.ActionLink("Product List", "list", "Product", new { Area = "Catalog" }, null)</li>*@
+                                   @* <li>@Html.ActionLink("Live Listing", "Publish", "Product", new { Area = "Catalog" }, null)</li>
+    <li>@Html.ActionLink("Non Live Listing", "list", "Product", new { Area = "Catalog" }, null)</li>
+    <li>@Html.ActionLink("Add New Listing", "ProductUpload", "Product", new { Area = "Catalog" }, null)</li>
+    <li>@Html.ActionLink("Product List", "list", "Product", new { Area = "Catalog" }, null)</li>*@
                                     @*<li>@Html.ActionLink("Attribute List", "list", "Attribute", new { Area = "Catalog" }, null)</li>
                                     <li>@Html.ActionLink("Attribute MAP", "AttrMap", "Attribute", new { Area = "Catalog" }, null)</li>*@
 
                                 </ul>
                             </li>
                          
-                            <li class="dropdown">
+                            @*<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/Htmlpage/ActiveOrder">Active Order</a>  @*@Html.ActionLink("Active Order", "ActiveOrder", "Htmlpage",null)*@</li>
-                                    <li><a href="/Htmlpage/CancelOrder">Cancelled Order</a> @*@Html.ActionLink("Cancelled Order", "CancelOrder", "Htmlpage", null)*@</li>
-                                    @*<li>@Html.ActionLink("Vendor Product List", "list", "Product", new { Area = "Catalog" }, null)</li>*@
+                                    <li><a href="/Htmlpage/ActiveOrder">Active Order</a>  </li>
+                                    <li><a href="/Htmlpage/CancelOrder">Cancelled Order</a> </li>
+
 
                                 </ul>
-                            </li>
-                            <li><a href="/Htmlpage/Payment">Payment</a></li>
-                            <li><a href="/Htmlpage/Report">Report</a></li>
+                            </li>*@
+                            @*<li><a href="/Htmlpage/Payment">Payment</a></li>
+                            <li><a href="/Htmlpage/Report">Report</a></li>*@
                         </ul>
 
                     </div>

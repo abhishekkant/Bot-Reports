@@ -31,10 +31,10 @@ namespace ISE_Solutions.Controllers
            
         }
         [HttpGet]
-        public async Task<JsonResult> GetIsSolvedReport(string query, string country)
+        public async Task<JsonResult> GetIsSolvedReport(string SDate, string EDate)
         {
             string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReport2> IsSolvedRecordJson = new List<SolutionProvidedReport2>();
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
             List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
             
             try
@@ -49,8 +49,8 @@ namespace ISE_Solutions.Controllers
 
                 await table.CreateIfNotExistsAsync();
 
-                string StartdateString = "2018-10-25T00:00:00.000Z";
-                string EnddateString = "2018-11-10T00:00:00.000Z";
+                string StartdateString = SDate; //"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate;// "2018-11-10T00:00:00.000Z";
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
@@ -59,7 +59,7 @@ namespace ISE_Solutions.Controllers
                 //List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>("Timestamp gt '" + StartDate + "' and Timestamp lt '" + EndDate + "'");
 
 
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp > StartDate && item.Timestamp < EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                
 
@@ -67,7 +67,7 @@ namespace ISE_Solutions.Controllers
 
                 foreach (var singleData in SutdentListObj1)
                 {
-                    SolutionProvidedReport2 DataList = new SolutionProvidedReport2();
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
                     SolutionResult resultdata = new SolutionResult();
                     DataList.Timestamp1 = (singleData.Key).ToString();
                     foreach (var result in singleData)
@@ -105,10 +105,151 @@ namespace ISE_Solutions.Controllers
             return Json(output,JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetRatingReport(string SDate, string EDate)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
 
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                // Create the table client.
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Retrieve a reference to the table.
+                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
+                table = tableClient.GetTableReference("SolutionProvidedReport");
 
+                await table.CreateIfNotExistsAsync();
 
+                string StartdateString = SDate; //"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate;// "2018-11-10T00:00:00.000Z";
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
+                    SolutionResult resultdata = new SolutionResult();
+                    DataList.Timestamp1 = (singleData.Key).ToString();
+                    foreach (var result in singleData)
+                    {
+                        if (result.Rating > 0)
+                        {
+                            DataList.isRatingTrue += 1;
+                        }
+                        else
+                        {
+                            DataList.isRatingFalse += 1;
+                        }
+                    }
+                    resultdata.TotalNoRating += DataList.isRatingFalse; //+ ", ";
+                    resultdata.TotalRating += DataList.isRatingTrue;// + ", ";
+                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM");// + ", ";
+
+                    ResultRecordJson.Add(resultdata);
+                    //IsSolvedRecordJson.Add(DataList);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
+
+            // return Json(resultData, JsonRequestBehavior.AllowGet);
+            //return Json(c, JsonRequestBehavior.AllowGet);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetAvgRatingReport(string SDate, string EDate)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                // Create the table client.
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Retrieve a reference to the table.
+                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
+                table = tableClient.GetTableReference("SolutionProvidedReport");
+
+                await table.CreateIfNotExistsAsync();
+
+                string StartdateString = SDate; //"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate;// "2018-11-10T00:00:00.000Z";
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
+                //    .Select(g => new {
+                //    Date = g.Key,
+                //    Count = g.Count(),
+                //    Total = g.Sum(i => i.Rating),
+                //    Average = g.Average(i => i.Rating)
+                //}).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
+                    SolutionResult resultdata = new SolutionResult();
+                    DataList.Timestamp1 = (singleData.Key).ToString();
+                    foreach (var result in singleData)
+                    {
+                        if (result.Rating > 0)
+                        {
+                            DataList.RatingTotal += result.Rating;
+                            DataList.RatingCount += 1;
+                        }
+                        else
+                        {
+                            DataList.isSolvedFalse += 1;
+                        }
+                    }
+                    if (DataList.RatingTotal > 0 && DataList.RatingCount > 0)
+                    {
+                        resultdata.AvgRating += (DataList.RatingTotal / DataList.RatingCount);
+                    }
+                    else resultdata.AvgRating = 0;
+                    //+ ", ";
+                    //resultdata.TotalRating += DataList.isRatingTrue;// + ", ";
+                    resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM");// + ", ";
+
+                    ResultRecordJson.Add(resultdata);
+                    //IsSolvedRecordJson.Add(DataList);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
+
+            // return Json(resultData, JsonRequestBehavior.AllowGet);
+            //return Json(c, JsonRequestBehavior.AllowGet);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
         public List<T> RetrieveEntity<T>(string Query = null) where T : TableEntity, new()
         {
           
@@ -133,49 +274,6 @@ namespace ISE_Solutions.Controllers
         }
 
 
-
-        public async static Task<int> SaveGeneralComplaints(string eventTime, string eventType)
-        {
-            try
-            {
-                string a = Convert.ToString( CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                CloudTable table = tableClient.GetTableReference("ComplaintTableName");
-                // Create the table if it doesn't exist.
-                table.CreateIfNotExists();
-                ComplaintsEntity generalComplaint = new ComplaintsEntity(eventTime, DateTime.UtcNow.Ticks.ToString());
-                generalComplaint.first_name = eventType;
-                // generalComplaint.last_name = customer.name_last;
-                generalComplaint.mobileNo = eventTime;
-
-                // Create the TableOperation object that inserts the customer entity.
-                TableOperation insertOperation = TableOperation.Insert(generalComplaint);
-
-                // Execute the insert operation.
-
-                await table.ExecuteAsync(insertOperation);
-
-                return 1;
-
-            }
-
-            catch (Exception ex)
-
-            {
-
-                // logger.Error(ex, "Couldn't save complaints with specific product information.");
-
-                return -1;
-
-            }
-
-
-        }
-
-
         }
 
     public class SolutionProvidedReport : TableEntity
@@ -184,23 +282,30 @@ namespace ISE_Solutions.Controllers
         public string UserId { get; set; }
         public DateTime Timestamp1 { get; set; }
         public bool? IsSolved { get; set; }
-
-        public List<SolutionProvidedReport2> IsSolvedRecord { get; set; }
+        public int Rating { get; set; }
+        public List<SolutionProvidedReportValues> IsSolvedRecord { get; set; }
         public List<SolutionResult> SolutionResult { get; set; }
     }
 
-    public class SolutionProvidedReport2 : TableEntity
+    public class SolutionProvidedReportValues : TableEntity
     {
         public String Timestamp1 { get; set; }
         public  int  isSolvedTrue { get; set; }
         public int isSolvedFalse { get; set; }
+        public int isRatingFalse { get; set; }
+        public int isRatingTrue { get; set; }
+        public int RatingCount { get; set; }
+        public int RatingTotal { get; set; }
     }
 
     public class SolutionResult: TableEntity
     {
         public String TotalSolved { get; set; }
         public String TotalUnSolved { get; set; }
+        public String TotalRating { get; set; }
+        public String TotalNoRating { get; set; }
         public String Dates { get; set; }
+        public int AvgRating { get; set; }
     }
 
     

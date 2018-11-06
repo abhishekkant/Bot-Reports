@@ -30,12 +30,7 @@
                     TotalUnSolved.push(value.TotalUnSolved);
                     Dates.push(value.Dates)
                 });
-                //debugger
-                //for (var i=0; i < 5; i++)
-                //{
-                //   // TotalSolved.push(i+2);
-                //   // TotalUnSolved.push(i + 4);
-                //}
+              
                 $("#IsSlovedchart").kendoChart({
 
                     title: {
@@ -126,7 +121,7 @@
                         data: TotalSolved,
                         color: 'green'
                     }, {
-                        name: "Total No Rating ",
+                            name: "Total Unrated ",
                         data: TotalUnSolved,
                         color: 'yellow'
                     }],
@@ -160,19 +155,19 @@
             }
         });
     }
-    function createAvgRatingChart(StartDate, EndDate) {
-        var TotalAvgRating = [];
-        var TotalUnSolved = [];
+    function createFailedTicketSubmissionChart(StartDate, EndDate) {
+        var FailedTicketCount = [];
+        //var TotalUnSolved = [];
         var Dates = [];
         $.ajax({
             type: 'GET',
-            url: "/home/GetAvgRatingReport",
+            url: "/home/GetFailedTicketSubmissionReport",
             dataType: 'json',
             data: { SDate: StartDate, EDate: EndDate },
             success: function (data) {
                 var _bject = JSON.parse(data);
                 $.each(_bject, function (key, value) {
-                    TotalAvgRating.push(value.AvgRating);
+                    FailedTicketCount.push(value.FailedTicketCount);
                     //TotalUnSolved.push(value.TotalNoRating);
                     Dates.push(value.Dates)
                 });
@@ -182,10 +177,10 @@
                 //   // TotalSolved.push(i+2);
                 //   // TotalUnSolved.push(i + 4);
                 //}
-                $("#AvgRatingchart").kendoChart({
+                $("#FailedTicketSubmissionChart").kendoChart({
 
                     title: {
-                        text: "Average Rating Status"
+                        text: "Failed Ticket"
                     },
                     legend: {
                         visible: false
@@ -194,9 +189,9 @@
                         type: "column"
                     },
                     series: [{
-                        name: "Total Avg Rating",
-                        data: TotalAvgRating,
-                        color: 'purple'
+                        name: "Failed Ticket Count",
+                        data: FailedTicketCount,
+                        color: 'magenta'
                     }
                     //    ,
                     //{
@@ -235,15 +230,266 @@
             }
         });
     }
-    // $(document).ready(createVisitorChart);
+
+
+    function createTicketHistoryChart(StartDate, EndDate) {
+        var TotalAvgRating = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetTicketRaiseHistoryReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                //$.each(_bject, function (key, value) {
+                //    //TotalAvgRating.push(value.AvgRating);
+                //    //TotalUnSolved.push(value.TotalNoRating);
+                //   // Dates.push(value.Dates)
+                //});
+               
+                $("#TicketHistorychart").kendoChart({
+                    title: {
+                        position: "bottom",
+                        text: "Department Ticket Raised History"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    chartArea: {
+                        background: ""
+                    },
+                    seriesDefaults: {
+                        labels: {
+                            visible: true,
+                            background: "transparent",
+                            template: "#= category #: \n #= value#"
+                        }
+                    },
+                    series: [{
+                        type: "pie",
+                        startAngle: 150,
+                        data: _bject
+                    }],
+                    tooltip: {
+                        visible: true,
+                        format: "{0}"
+                    }
+                });
+
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+    }
+
+
+    function createAvgRatingChart(StartDate, EndDate) {
+        var TotalAvgRating = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetAvgRatingReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    TotalAvgRating.push(value.AvgRating);
+
+                    //TotalUnSolved.push(value.TotalNoRating);
+                    Dates.push(value.Dates)
+                });
+                //debugger
+                //for (var i=0; i < 5; i++)
+                //{
+                //   // TotalSolved.push(i+2);
+                //   // TotalUnSolved.push(i + 4);
+                //}
+                $("#AvgRatingchart").kendoChart({
+
+                    title: {
+                        text: "Average Rating Status"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "column"
+                    },
+                    series: [{
+                        name: "Total Avg Rating",
+                        data: TotalAvgRating,
+                        color: '#3366ff'
+                    }
+                        //    ,
+                        //{
+                        //    name: "Total No Rating ",
+                        //    data: TotalUnSolved,
+                        //    color: 'yellow'
+                        //    }
+                    ],
+                    valueAxis: {
+                        max: 5,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+    }
+    function TicketRaisedChart(StartDate, EndDate) {
+        var TicketRaised = [];
+        var TotalUnSolved = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetTicketRaisedChart",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    TicketRaised.push(value.TicketRaisedCount);
+
+                    //TotalUnSolved.push(value.TotalNoRating);
+                    Dates.push(value.Dates)
+                });
+                //debugger
+                //for (var i=0; i < 5; i++)
+                //{
+                //   // TotalSolved.push(i+2);
+                //   // TotalUnSolved.push(i + 4);
+                //}
+                $("#TicketRaisedChart").kendoChart({
+
+                    title: {
+                        text: "Total Ticket Raised"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "area"
+                    },
+                    series: [{
+                        name: "Ticket Raised",
+                        data: TicketRaised,
+                        color: '#00ff00'
+                    }
+                        //    ,
+                        //{
+                        //    name: "Total No Rating ",
+                        //    data: TotalUnSolved,
+                        //    color: 'yellow'
+                        //    }
+                    ],
+                    valueAxis: {
+                        max: 5,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+    }
+    
+
+    $(function () {
+        
+        var StartDate ='';
+        var EndDate = '' ;
+
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        EndDate = month + "/" + day + "/" + year; 
+
+        var today = new Date();
+        var date2 = new Date(today.setDate(today.getDate() - 10));
+       // var date2 = new Date()-7;
+        var day2 = date2.getDate();
+        var month2 = date2.getMonth() + 1;
+        var year2 = date2.getFullYear();
+        if (day2 < 10) {
+            day2 = "0" + day2;
+        }
+        if (month2 < 10) {
+            month2 = "0" + month2;
+        }
+        StartDate = month2 + "/" + day2 + "/" + year2; 
+        createVisitorChart(StartDate, EndDate);
+        createRatingChart(StartDate, EndDate);
+        createAvgRatingChart(StartDate, EndDate);
+        createTicketHistoryChart(StartDate, EndDate)
+        createFailedTicketSubmissionChart(StartDate, EndDate)
+        TicketRaisedChart(StartDate, EndDate)
+    });
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
 
         var StartDate = $('#startdate').val();
         var EndDate = $('#enddate').val();
+
         createVisitorChart(StartDate, EndDate);
         createRatingChart(StartDate, EndDate);
         createAvgRatingChart(StartDate, EndDate);
+        createTicketHistoryChart(StartDate, EndDate)
+        createFailedTicketSubmissionChart(StartDate, EndDate)
+        TicketRaisedChart(StartDate, EndDate)
     }
 </script>
 
@@ -355,6 +601,34 @@
             </div>
 
         </div>
+          <div class="col-md-6">
+              <div id="example">
+                  <div class="demo-section k-content wide">
+                      <div id="TicketHistorychart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                  </div>
+                
+              </div>
+          </div>
+          </div>
+    <div class="row" style="margin-top:10px">
+        <div class="col-md-6">
+            <div id="example">
+                <div class="demo-section k-content wide">
+                    <div id="TicketRaisedChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                </div>
+
+            </div>
         </div>
+        <div class="col-md-6">
+            <div id="example">
+                <div class="demo-section k-content wide">
+                    <div id="FailedTicketSubmissionChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+     
+        
 </section>
 

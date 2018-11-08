@@ -1,6 +1,5 @@
 ﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ISE_Solutions</RootNamespace>
     <AssemblyName>ISE-Solutions</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -23,7 +22,6 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TargetFrameworkProfile />
     <Use64BitIISExpress />
   </PropertyGroup>
@@ -46,63 +44,59 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="dotless.Core, Version=1.4.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
-      <HintPath>..\packages\dotless.1.4.0.0\lib\dotless.Core.dll</HintPath>
+    <Reference Include="dotless.AspNet, Version=1.6.7.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.AspNetHandler.1.6.7\lib\net461\dotless.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.Core, Version=1.6.7.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <HintPath>..\packages\dotless.Core.1.6.7\lib\net47\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Kendo.Mvc, Version=2018.3.1017.545, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\Kendo.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Kendo.Mvc.Export, Version=2019.1.17.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\export\binaries\net40\Kendo.Mvc.Export.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.CosmosDB.Table, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Azure.CosmosDB.Table.1.1.1\lib\net45\Microsoft.Azure.CosmosDB.Table.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.3.0.0\lib\net452\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Documents.Client, Version=1.19.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.19.0\lib\net45\Microsoft.Azure.Documents.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.4\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Edm.5.8.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Edm, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.8.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.OData.5.8.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.OData, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.8.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.OData.Core, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.OData.Core.7.2.0\lib\portable-net45+win8+wpa81\Microsoft.OData.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.1.1\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.OData.Edm, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.OData.Edm.7.2.0\lib\portable-net45+win8+wpa81\Microsoft.OData.Edm.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Spatial, Version=7.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Spatial.7.2.0\lib\portable-net45+win8+wpa81\Microsoft.Spatial.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.OData.Core, Version=7.5.1.20914, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OData.Core.7.5.1\lib\portable-net45+win8+wpa81\Microsoft.OData.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OData.Edm, Version=7.5.1.20914, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.OData.Edm.7.5.1\lib\portable-net45+win8+wpa81\Microsoft.OData.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Spatial, Version=7.5.1.20914, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Spatial.7.5.1\lib\portable-net45+win8+wpa81\Microsoft.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -112,13 +106,12 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.3.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.9.3.2\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Spatial, Version=5.8.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.8.4\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -127,338 +120,108 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization.Less, Version=1.3.0.0, Culture=neutral, PublicKeyToken=9b7581e0240fe480, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Web.Optimization.Less.1.3.4\lib\net40\System.Web.Optimization.Less.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    <Reference Include="Telerik.Documents.SpreadsheetStreaming, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Documents.SpreadsheetStreaming.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Web.Spreadsheet, Version=2019.1.17.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Web.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Fixed, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Fixed.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Flow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow.FormatProviders.Pdf, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Documents.Spreadsheet.FormatProviders.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip.Extensions, Version=2018.3.1010.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\KENDOUIMVC\2018.3.1017.545\spreadsheet\binaries\net40\Telerik.Windows.Zip.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Web.Razor">
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages.Deployment">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Webpages.Razor">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Helpers">
-      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\de\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\de\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\de\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\de\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\de\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\de\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\de\System.Spatial.resources.dll" />
-    <Content Include="bin\DocumentDB.Spatial.Sql.dll" />
-    <Content Include="bin\es\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\es\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\es\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\es\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\es\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\es\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\es\System.Spatial.resources.dll" />
-    <Content Include="bin\fr\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\fr\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\fr\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\fr\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\fr\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\fr\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\fr\System.Spatial.resources.dll" />
-    <Content Include="bin\HtmlAgilityPack.dll" />
-    <Content Include="bin\HtmlAgilityPack.pdb" />
-    <Content Include="bin\HtmlAgilityPack.xml" />
-    <Content Include="bin\it\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\it\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\it\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\it\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\it\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\it\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\it\System.Spatial.resources.dll" />
-    <Content Include="bin\ja\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\ja\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\ja\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\ja\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\ja\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\ja\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\ja\System.Spatial.resources.dll" />
-    <Content Include="bin\ko\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\ko\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\ko\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\ko\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\ko\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\ko\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\ko\System.Spatial.resources.dll" />
-    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
-    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.xml" />
-    <Content Include="bin\Microsoft.AI.Web.dll" />
-    <Content Include="bin\Microsoft.AI.Web.xml" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.xml" />
-    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
-    <Content Include="bin\Microsoft.ApplicationInsights.xml" />
-    <Content Include="bin\Microsoft.Azure.CosmosDB.Table.dll" />
-    <Content Include="bin\Microsoft.Azure.CosmosDB.Table.pdb" />
-    <Content Include="bin\Microsoft.Azure.CosmosDB.Table.xml" />
-    <Content Include="bin\Microsoft.Azure.Documents.Client.dll" />
-    <Content Include="bin\Microsoft.Azure.Documents.Client.xml" />
-    <Content Include="bin\Microsoft.Azure.Documents.ServiceInterop.dll" />
-    <Content Include="bin\Microsoft.Azure.KeyVault.Core.dll" />
-    <Content Include="bin\Microsoft.Azure.KeyVault.Core.xml" />
-    <Content Include="bin\Microsoft.Azure.Storage.Common.dll" />
-    <Content Include="bin\Microsoft.Azure.Storage.Common.pdb" />
-    <Content Include="bin\Microsoft.Azure.Storage.Common.xml" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
-    <Content Include="bin\Microsoft.Data.Edm.dll" />
-    <Content Include="bin\Microsoft.Data.Edm.xml" />
-    <Content Include="bin\Microsoft.Data.OData.dll" />
-    <Content Include="bin\Microsoft.Data.OData.xml" />
-    <Content Include="bin\Microsoft.Data.Services.Client.dll" />
-    <Content Include="bin\Microsoft.Data.Services.Client.xml" />
-    <Content Include="bin\Microsoft.OData.Core.dll" />
-    <Content Include="bin\Microsoft.OData.Core.xml" />
-    <Content Include="bin\Microsoft.OData.Edm.dll" />
-    <Content Include="bin\Microsoft.OData.Edm.xml" />
-    <Content Include="bin\Microsoft.Spatial.dll" />
-    <Content Include="bin\Microsoft.Spatial.xml" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Microsoft.WindowsAzure.Configuration.dll" />
-    <Content Include="bin\Microsoft.WindowsAzure.Configuration.xml" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\HelpPage.css" />
-    <Content Include="bin\Release\PublishOutput\bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\de\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\DocumentDB.Spatial.Sql.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\es\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\fr\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\it\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ja\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ko\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.Agent.Intercept.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.DependencyCollector.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.PerfCounterCollector.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.ServerTelemetryChannel.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.Web.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.AI.WindowsServer.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.ApplicationInsights.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.CosmosDB.Table.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.CosmosDB.Table.pdb" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.Documents.Client.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.Documents.ServiceInterop.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.KeyVault.Core.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.Storage.Common.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Azure.Storage.Common.pdb" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Data.Edm.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Data.OData.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Data.Services.Client.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.OData.Core.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.OData.Edm.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Spatial.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Microsoft.WindowsAzure.Configuration.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\csc.exe" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\csi.exe" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CodeAnalysis.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.AppContext.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.Collections.Immutable.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.Diagnostics.StackTrace.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.IO.FileSystem.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.IO.FileSystem.Primitives.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\System.Reflection.Metadata.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\vbc.exe" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\VBCSCompiler.exe" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\ru\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Spatial.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Helpers.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Http.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Http.WebHost.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Mvc.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Optimization.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.Razor.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.WebPages.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\WebGrease.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hans\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\zh-Hant\System.Spatial.resources.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Zoho-Api.dll" />
-    <Content Include="bin\Release\PublishOutput\bin\Zoho-Api.pdb" />
-    <Content Include="bin\Release\PublishOutput\Content\bootstrap.css" />
-    <Content Include="bin\Release\PublishOutput\Content\bootstrap.min.css" />
-    <Content Include="bin\Release\PublishOutput\Content\Site.css" />
-    <Content Include="bin\Release\PublishOutput\favicon.ico" />
-    <Content Include="bin\Release\PublishOutput\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="bin\Release\PublishOutput\Global.asax" />
-    <Content Include="bin\Release\PublishOutput\Scripts\bootstrap.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\bootstrap.min.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\jquery-1.10.2.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\jquery-1.10.2.min.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\modernizr-2.6.2.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\respond.js" />
-    <Content Include="bin\Release\PublishOutput\Scripts\respond.min.js" />
-    <Content Include="bin\roslyn\csc.exe" />
-    <Content Include="bin\roslyn\csi.exe" />
-    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
-    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
-    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
-    <Content Include="bin\roslyn\System.AppContext.dll" />
-    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
-    <Content Include="bin\roslyn\System.Diagnostics.StackTrace.dll" />
-    <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
-    <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
-    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
-    <Content Include="bin\roslyn\vbc.exe" />
-    <Content Include="bin\roslyn\VBCSCompiler.exe" />
-    <Content Include="bin\ru\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\ru\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\ru\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\ru\System.Spatial.resources.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\System.Spatial.dll" />
-    <Content Include="bin\System.Spatial.xml" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.xml" />
-    <Content Include="bin\System.Web.Http.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Optimization.dll" />
-    <Content Include="bin\System.Web.Optimization.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\WebGrease.dll" />
-    <Content Include="bin\WebScrapingArticle.exe" />
-    <Content Include="bin\WebScrapingArticle.pdb" />
-    <Content Include="bin\WebScrapingArticle.vshost.exe" />
-    <Content Include="bin\zh-Hans\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\zh-Hans\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\zh-Hans\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\zh-Hans\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\zh-Hans\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\zh-Hans\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Spatial.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.Data.Edm.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.Data.OData.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.Data.Services.Client.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.OData.Core.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.OData.Edm.resources.dll" />
-    <Content Include="bin\zh-Hant\Microsoft.Spatial.resources.dll" />
-    <Content Include="bin\zh-Hant\System.Spatial.resources.dll" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -871,61 +634,10 @@
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
-    <Content Include="bin\WebScrapingArticle.exe.config" />
-    <Content Include="bin\WebScrapingArticle.vshost.exe.config" />
-    <Content Include="bin\WebScrapingArticle.vshost.exe.manifest" />
-    <Content Include="bin\ApplicationInsights.config" />
-    <Content Include="bin\Release\PublishOutput\ApplicationInsights.config" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\Index.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Shared\_Layout.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\Web.config" />
-    <Content Include="bin\Release\PublishOutput\Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="bin\Release\PublishOutput\bin\ApplicationInsights.config" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\csc.exe.config" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\csc.rsp" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\csi.rsp" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.CSharp.Core.targets" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\Microsoft.VisualBasic.Core.targets" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\vbc.exe.config" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\vbc.rsp" />
-    <Content Include="bin\Release\PublishOutput\bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="bin\Release\PublishOutput\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="bin\Release\PublishOutput\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="bin\Release\PublishOutput\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="bin\Release\PublishOutput\packages.config" />
-    <Content Include="bin\Release\PublishOutput\Scripts\jquery-1.10.2.min.map" />
-    <Content Include="bin\Release\PublishOutput\Views\Home\CreateWebhook.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Views\Home\Index.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Views\Home\zohotr.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Views\Shared\Error.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Views\Shared\_Layout.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Views\Web.config" />
-    <Content Include="bin\Release\PublishOutput\Views\_ViewStart.cshtml" />
-    <Content Include="bin\Release\PublishOutput\Web.config" />
-    <Content Include="bin\roslyn\csc.exe.config" />
-    <Content Include="bin\roslyn\csc.rsp" />
-    <Content Include="bin\roslyn\csi.rsp" />
-    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
-    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
-    <Content Include="bin\roslyn\vbc.exe.config" />
-    <Content Include="bin\roslyn\vbc.rsp" />
-    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <None Include="Properties\PublishProfiles\rebotreports - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\rebotreports - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\reservicebot - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\reservicebot - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -935,6 +647,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kendo.modernizr.custom.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -960,9 +673,6 @@
     <Compile Include="Interface\ConfigurationInterface.cs" />
     <Compile Include="Models\HomeLoginViewModel.cs" />
     <Compile Include="Models\UserAuthViewModel.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionHelper\SessionHandler.cs" />
     <Compile Include="Utility\Utility.cs" />
@@ -970,7 +680,6 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="DBError\05-07-2017.log" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -980,9 +689,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="obj\Debug\build.force" />
-    <Content Include="obj\Debug\CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\Role.cshtml" />
     <Content Include="Views\Home\DashBoard.cshtml" />
@@ -993,6 +699,19 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MsgNotification.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Email.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1002,7 +721,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1027,17 +745,15 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties UseCdnSupport="True" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Azure.DocumentDB.1.19.0\build\Microsoft.Azure.DocumentDB.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Azure.DocumentDB.1.19.0\build\Microsoft.Azure.DocumentDB.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-  <Import Project="..\packages\Microsoft.Azure.DocumentDB.1.19.0\build\Microsoft.Azure.DocumentDB.targets" Condition="Exists('..\packages\Microsoft.Azure.DocumentDB.1.19.0\build\Microsoft.Azure.DocumentDB.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

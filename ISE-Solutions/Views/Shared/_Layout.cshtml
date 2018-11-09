@@ -44,14 +44,6 @@
 
         </style>*@
 
-	<link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.default.min.css" rel="stylesheet" type="text/css" />
-	<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jszip.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.aspnetmvc.min.js"></script>
-	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
     <div class="wrapper">
@@ -147,9 +139,9 @@
 
                                     </ul>
                                 </li>*@
-                            <li class="dropdown">
+                            @*<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Listing <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul class="dropdown-menu" role="menu">*@
                                    
                                    @* <li>@Html.ActionLink("Live Listing", "Publish", "Product", new { Area = "Catalog" }, null)</li>
     <li>@Html.ActionLink("Non Live Listing", "list", "Product", new { Area = "Catalog" }, null)</li>
@@ -158,8 +150,8 @@
                                     @*<li>@Html.ActionLink("Attribute List", "list", "Attribute", new { Area = "Catalog" }, null)</li>
                                     <li>@Html.ActionLink("Attribute MAP", "AttrMap", "Attribute", new { Area = "Catalog" }, null)</li>*@
 
-                                </ul>
-                            </li>
+                                @*</ul>
+                            </li>*@
                          
                             @*<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
@@ -170,8 +162,8 @@
 
                                 </ul>
                             </li>*@
-                            @*<li><a href="/Htmlpage/Payment">Payment</a></li>
-                            <li><a href="/Htmlpage/Report">Report</a></li>*@
+                            @*<li><a href="/Htmlpage/Payment">Payment</a></li>*@
+                            <li><a href="/home/top10">Top 10 Report</a></li>
                         </ul>
 
                     </div>

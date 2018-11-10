@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.Azure; // Namespace for CloudConfigurationManager
 using Microsoft.WindowsAzure.Storage.Table;
+//using Microsoft.Azure.CosmosDB.Table; // Namespace for Table storage types
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Linq;
@@ -26,7 +27,11 @@ namespace ISE_Solutions.Controllers
 
             return View();
         }
+        public ActionResult addrow()
+        {
 
+            return View();
+        }
         public ActionResult DashBoard(HomeLoginViewModel objLogin)
         {
            

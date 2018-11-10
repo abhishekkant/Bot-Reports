@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using DataLayer.Helper;
 using DataLayer.Interface;
 using ISE_Solutions.Model;
 using ISE_Solutions.SessionHelper;

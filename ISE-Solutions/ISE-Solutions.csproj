@@ -641,6 +641,7 @@
     <Content Include="Views\Shared\_MsgNotification.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Top10.cshtml" />
+    <Content Include="Views\Home\addrow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

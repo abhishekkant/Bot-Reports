@@ -28,7 +28,11 @@ namespace ISE_Solutions.Controllers
 
             return View();
         }
+        public ActionResult addrow()
+        {
 
+            return View();
+        }
         public ActionResult DashBoard(HomeLoginViewModel objLogin)
         {
            

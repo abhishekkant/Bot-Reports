@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "addrow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<style>
+   
+</style>
+<script>
+    $(document).ready(function () {
+        var next = 1;
+        $(".add-more").click(function (e) {
+            e.preventDefault();
+            var addto = "#field" + next;
+            var addRemove = "#field" + (next);
+            next = next + 1;
+            var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+            var newInput = $(newIn);
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+            var removeButton = $(removeBtn);
+            $(addto).after(newInput);
+            $(addRemove).after(removeButton);
+            $("#field" + next).attr('data-source', $(addto).attr('data-source'));
+            $("#count").val(next);
+
+            $('.remove-me').click(function (e) {
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length - 1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+        });
+
+
+
+    });
+
+
+    function addLine() {
+        var tabLines = document.getElementById("tabLines");
+        var tabLinesRow = tabLines.insertRow(tabLines.rows.length - 1);
+        var col1html = "<input class='form-control' type='button' value='Remove' name='Remove' onclick='removeLine(this);'/>";
+        var col2html = "<input class='form-control' type='text' name='field1' />";
+        var col3html = "<input class='form-control' type='text' name='field2' />";
+        var col4html = "<select class='form-control'><option selected= 'selected' value= '0'> Select</option><option value='Text'>Text</option><option value='Image'>Image</option><option value='Other Faq'>Other Faq</option><option value='Raise SR'>Raise SR</option></select >";/// "<input class='form-control' type='text' name='field3' />";
+
+        var col1 = tabLinesRow.insertCell(0); col1.innerHTML = col1html;
+        var col2 = tabLinesRow.insertCell(1); col2.innerHTML = col2html;
+        var col3 = tabLinesRow.insertCell(2); col3.innerHTML = col3html;
+        var col4 = tabLinesRow.insertCell(3); col4.innerHTML = col4html;
+    }
+
+    function removeLine(lineItem) {
+        var row = lineItem.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
+    var frmData = {};              // an object to contain all form data
+    var arrLines = new Array();    // array to contain the dynamic lines
+
+    var tabLines = document.getElementById("tabLines").rows.length - 1;
+
+    for (i = 0; i < tabLines; i++) {
+        arrLines[i] = {};
+        arrLines[i]['no'] = i + 1;
+        arrLines[i]['field1'] = $("#frmLines input[name=field1]").eq(i).val();
+        arrLines[i]['field2'] = $("#frmLines input[name=field2]").eq(i).val();
+        arrLines[i]['field3'] = $("#frmLines input[name=field3]").eq(i).val();
+    }
+    frmData['lines'] = arrLines;
+
+    frmData['another_field'] = $('#frmLines input[name=another_field]').val();
+
+    var jsonData = JSON.stringify(frmData);
+
+// lines of data now in a JSON structure as indexed array
+// (plus other fields in the JSON as required)
+// ready to post via ajax etc
+</script>
+
+<!------ Include the above in your HEAD tag ---------->
+@*<div class="container">
+    <div class="row">
+        <input type="hidden" name="count" value="1" />
+        <div class="control-group" id="fields">
+            <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+            <div class="controls" id="profs">
+                <form class="input-append">
+                    <div id="field">
+                    <input autocomplete="off" class="form-control" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8" />
+
+                    <button id="b1" class="btn add-more" type="button">+</button></div>
+                </form>
+                <br>
+                <small>Press + to add another form field :)</small>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+    <!-- Content Header (Page header) -->
+    <!-- Main content -->
+    <section class="content">
+        <h3>Train Your AI</h3>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                     
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="customer_info">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+
+                                            <div class="panel-body">
+                                                <br>
+
+                                                <div class="col-md-12">
+                                                    <div style="text-align:center">--------------------------------------------------1- What Can Pepole Say ?----------------------------------------------------------------------------</div>
+                                                    <br />
+                                                    <div class="form-group">
+                                                        <label for="" class="col-sm-4 control-label"></label>
+                                                        <div class="col-sm-6">
+                                                        
+
+                                                            <input autocomplete="off" class="form-control" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8" />
+
+                                                            <button id="b1" style="float:left" class="btn add-more" type="button">+</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                <div style="text-align:center">------------------------------------------------------2- What They do mean ?----------------------------------------------------------------------------</div>
+                                                <br />
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-4 control-label">Intent</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" id="Label1" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                   
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-4 control-label">Label</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" id="Label1" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group">
+                                                        <label for="" class="col-sm-4 control-label">Category</label>
+                                                        <div class="col-sm-6">
+                                                            <select class="form-control">
+                                                                <option selected="selected" value="0">Select</option>
+                                                                <option value="1">HR</option>
+                                                                <option value="2">IT</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                  
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-4 control-label">ITSM Category</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" id="Label1" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-4 control-label">ITMS Sub Category</label>
+                                                    <div class="col-sm-6">
+                                                        <input class="form-control" id="Label1" placeholder="" type="text">
+                                                    </div>
+                                                </div>
+                                                <div style="text-align:center">------------------------------------------------------- 3- Provide Solution----------------------------------------------------------------------------</div>
+                                                <br />                                                   
+                                                <div class="form-group">
+                                                        <table id="tabLines" style="margin-left:387px;">
+                                                            <tr>
+                                                                <td><input type="button" class="form-control" value="Remove" name="Remove" onclick='removeLine(this);' /></td>
+                                                                <td><input  class="form-control" type='text' name='field1' /></td>
+                                                                <td><input class="form-control" type='text' name='field2' /></td>
+                                                                <td>
+                                                                    <select class="form-control">
+                                                                    <option selected="selected" value="0">Select</option>
+                                                                    <option value="Text">Text</option>
+                                                                    <option value="Image">Image</option>
+                                                                        <option value="Other Faq">Other Faq</option>
+                                                                        <option value="Raise SR">Raise SR</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><input class="form-control" type="button" value="Add" name="Add" onclick='addLine();' /></td>
+                                                                <td colspan=3>&nbsp;</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-7 col-sm-offset-5">
+                                                        <input value="Save" class="btn btn-primary" type="submit">
+                                                    </div>
+                                                </div>
+                                                  
+
+                                                  
+
+
+                                                   
+
+                                                   
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- /.box-body -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            
+                          
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- nav-tabs-custom -->
+                </div>
+            </div>
+            <!-- /.col -->
+
+       
+
+    </section>
+
+
+@*<form id=frmLines>
+    <table id=tabLines>
+        <tr>
+            <td><input type="button" value="Remove" name="Remove" onclick='removeLine(this);'/></td>
+            <td><input type='text' name='field1' /></td>
+            <td><input type='text' name='field2' /></td>
+            <td><input type='text' name='field3' /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="Add" name="Add" onclick='addLine();' /></td>
+            <td colspan=3>&nbsp;</td>
+        </tr>
+    </table>
+</form>*@
+

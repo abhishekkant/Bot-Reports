@@ -3,9 +3,7 @@ using System.Web.Mvc;
 using System.Threading.Tasks;
 using System;
 using Microsoft.Azure; // Namespace for CloudConfigurationManager
-using Microsoft.Azure.Storage; // Namespace for StorageAccounts
 using Microsoft.WindowsAzure.Storage.Table;
-//using Microsoft.Azure.CosmosDB.Table; // Namespace for Table storage types
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using System.Linq;

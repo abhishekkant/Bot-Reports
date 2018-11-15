@@ -44,6 +44,7 @@
 
         </style>*@
 
+	<link href="@Url.Content("~/Content/kendo/2018.3.1017/kendo.common.min.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/kendo/2018.3.1017/kendo.default.min.css")" rel="stylesheet" type="text/css" />
 	<script src="@Url.Content("~/Scripts/kendo/2018.3.1017/jszip.min.js")"></script>
 </head>
@@ -63,10 +64,10 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <li>
-                                        @*<a href="#" class="launch-modal" data-toggle="modal" data-target="#modal-video">
-                                            <span class="video-link-icon"><i class="fa fa-play"></i></span>
-                                            <span class="video-link-text">Excel Demo Video</span>
-                                        </a>*@
+                                @*<a href="#" class="launch-modal" data-toggle="modal" data-target="#modal-video">
+                                    <span class="video-link-icon"><i class="fa fa-play"></i></span>
+                                    <span class="video-link-text">Excel Demo Video</span>
+                                </a>*@
                             </li>
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
@@ -79,9 +80,9 @@
                                     <span class="hidden-xs">@SessionHandler.UserName</span>
                                 </a>
                                 <!-- The user image in the menu -->
-                           
+
                                 <ul class="dropdown-menu">
-                              
+
                                     <li class="user-header">
                                         <img src="~/Image/user2-160x160.jpg" class="img-circle" alt="User Image">
                                         <p>
@@ -96,8 +97,8 @@
                                             <a href="profile.html" class="btn btn-default btn-flat hide">Profile</a>
                                         </div>
                                         @*<div class="pull-right">
-                                                <a href="login.html" class="btn btn-default btn-flat">Sign out</a>
-                                            </div>*@
+                                            <a href="login.html" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>*@
                                         <div class="pull-right">
                                             @Html.ActionLink("Sign out", "Logout", "Login", new { area = "" }, new { @class = "btn btn-default btn-flat" })
                                             @*<a href="login.html" class="btn btn-default btn-flat">Sign out</a>*@
@@ -135,7 +136,7 @@
 
                             <li><a href="/home/top10">Top 10 Report</a></li>
                             <li><a href="/home/addrow">Train Bot</a></li>
-                            
+
                         </ul>
 
                     </div>
@@ -144,7 +145,7 @@
                 </div>
                 <!-- /.container-fluid -->
             </nav>
-           
+
         </header>
 
         <div class="content-wrapper">
@@ -158,7 +159,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                           Excel Upload Demo
+                            Excel Upload Demo
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -166,9 +167,9 @@
                         <div class="modal-body">
                             <div class="modal-video">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                   
+
                                     <video controls="controls" width="100%" height="100%">
-                                        <source src="~/DemoVideo/mesimart_video_excel_final.mp4" type="video/mp4"  />
+                                        <source src="~/DemoVideo/mesimart_video_excel_final.mp4" type="video/mp4" />
                                     </video>
                                 </div>
                             </div>
@@ -176,9 +177,10 @@
                     </div>
                 </div>
             </div>
-            
-        </div>
 
+        </div>
+        <script src="@Url.Content("~/Scripts/kendo/2018.3.1017/jquery.min.js")"></script>
+        <script src="@Url.Content("~/Scripts/kendo/2018.3.1017/kendo.all.min.js")"></script>
         <!-- /.content-wrapper -->
         <!-- Main Footer -->
         <footer class="main-footer">

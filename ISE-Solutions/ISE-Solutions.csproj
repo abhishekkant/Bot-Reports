@@ -320,6 +320,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Top10.cshtml" />
     <Content Include="Views\Home\addrow.cshtml" />
+    <Content Include="Views\Home\answerquery.cshtml" />
+    <Content Include="Views\Home\intentnotunderstand.cshtml" />
+    <Content Include="Views\Home\tickets.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

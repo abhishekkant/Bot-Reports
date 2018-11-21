@@ -2814,6 +2814,9 @@
     <Content Include="styles\kendo.silver.mobile.min.css.map" />
     <Content Include="styles\kendo.uniform.min.css.map" />
     <Content Include="styles\kendo.uniform.mobile.min.css.map" />
+    <Content Include="Views\Home\answerquery.cshtml" />
+    <Content Include="Views\Home\intentnotunderstand.cshtml" />
+    <Content Include="Views\Home\tickets.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

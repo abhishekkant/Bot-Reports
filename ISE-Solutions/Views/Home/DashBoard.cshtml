@@ -640,6 +640,8 @@
         TicketRaisedChart(StartDate, EndDate);
         ExceptionLogChart(StartDate, EndDate);
         IntentNotunderstoodChart(StartDate, EndDate);
+
+        $('#date-time').html('(' + day2 + "/" + month2 + "/" + year2 + ')   to   (' + day + "/" + month + "/" + year+')');
     });
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
@@ -655,6 +657,8 @@
         TicketRaisedChart(StartDate, EndDate);
         ExceptionLogChart(StartDate, EndDate);
         IntentNotunderstoodChart(StartDate, EndDate);
+       // $('#date-time').html('(' + StartDate + ')   to   (' + EndDate + ')');
+        $('#date-time').css('display', 'none');
     }
 </script>
 
@@ -663,6 +667,7 @@
 
 
 <section class="content">
+    
     @*<div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
@@ -732,17 +737,22 @@
                 <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
                </div>
             </div>
+            <div class="col-md-12" style="background-color:pink;margin:5px">
+                <p id="date-time" style="text-align:center"></p>
+            </div>
         </div>
             <div class="row">
 
-                <div class="col-md-6">
-                    <div id="example">
-                        <div class="demo-section k-content wide">
-                            <div id="IsSlovedchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                <a href="/home/answerquery">
+                    <div class="col-md-6">
+                        <div id="example">
+                            <div class="demo-section k-content wide">
+                                <div id="IsSlovedchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                            </div>
+
                         </div>
-                        
                     </div>
-                </div>
+                </a>
 
                 <div class="col-md-6">
                     <div id="example">
@@ -778,23 +788,26 @@
           </div>
           </div>
     <div class="row" style="margin-top:10px">
-        <div class="col-md-6">
-            <div id="example">
-                <div class="demo-section k-content wide">
-                    <div id="TicketRaisedChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
-                </div>
 
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div id="example">
-                <div class="demo-section k-content wide">
-                    <div id="FailedTicketSubmissionChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
-                </div>
+        <a href="/home/tickets">
+            <div class="col-md-6">
+                <div id="example">
+                    <div class="demo-section k-content wide">
+                        <div id="TicketRaisedChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </div>
+        </a>
+            <div class="col-md-6">
+                <div id="example">
+                    <div class="demo-section k-content wide">
+                        <div id="FailedTicketSubmissionChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                    </div>
+
+                </div>
+            </div>
+</div>
     <div class="row" style="margin-top:10px">
         <div class="col-md-6">
             <div id="example">
@@ -804,14 +817,16 @@
 
             </div>
         </div>
-        <div class="col-md-6">
-            <div id="example">
-                <div class="demo-section k-content wide">
-                    <div id="IntentNotunderstoodChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
-                </div>
+        <a href="/home/intentnotunderstand">
+            <div class="col-md-6">
+                <div id="example">
+                    <div class="demo-section k-content wide">
+                        <div id="IntentNotunderstoodChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                    </div>
 
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     @*<div id="example">
         <div class="box wide">

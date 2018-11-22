@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "intentquestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+   
+  
+    function GetParameterValues(param) {
+        var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < url.length; i++) {
+            var urlparam = url[i].split('=');
+            if (urlparam[0] == param) {
+                return urlparam[1];
+            }
+        }
+    }   
+    function Getdata(StartDate, EndDate) {
+        var DetectedIntent = GetParameterValues('id');
+        var EmployeeHtml = "";
+        $.ajax({
+            type: 'GET',
+            url: "/home/GetIntentIssesGrid",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate, DetectedIntent: DetectedIntent },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                // debugger;
+                $.each(_bject, function (key, value) {
+                    // TotalSolved.push(value.TotalSolved);
+                    // TotalUnSolved.push(value.TotalUnSolved);
+                    //Dates.push(value.Dates)
+                    EmployeeHtml += '<tr>';
+                    EmployeeHtml += '<td><a href="#">' + value.DetectedIntent + '</a></td>';
+                    EmployeeHtml += '<td>' + value.Issue + '</td>';
+                    EmployeeHtml += '<td>' + value.Dates + '</td>';
+                    EmployeeHtml += '<td>' + value.SolvedStatus + '</td>';
+                    EmployeeHtml += '</tr>';
+                });
+
+                $('#employeeReportChart').html(EmployeeHtml);
+
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+
+    }
+
+
+
+    $(function () {
+
+        var StartDate = '';
+        var EndDate = '';
+
+        var date = new Date();
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        EndDate = month + "/" + day + "/" + year;
+
+        var today = new Date();
+        var date2 = new Date(today.setDate(today.getDate() - 10));
+        // var date2 = new Date()-7;
+        var day2 = date2.getDate();
+        var month2 = date2.getMonth() + 1;
+        var year2 = date2.getFullYear();
+        if (day2 < 10) {
+            day2 = "0" + day2;
+        }
+        if (month2 < 10) {
+            month2 = "0" + month2;
+        }
+        StartDate = month2 + "/" + day2 + "/" + year2;
+        Getdata(StartDate, EndDate);
+       // GetTop10DetectedIntent(StartDate, EndDate);
+    });
+    //$(document).bind("kendo:skinChange", createVisitorChart);
+    function ViewReport() {
+
+        var StartDate = $('#startdate').val();
+        var EndDate = $('#enddate').val();
+        Getdata(StartDate, EndDate);
+        //GetTop10DetectedIntent(StartDate, EndDate);
+    }
+</script>
+<script>
+    var myVar;
+    $(document).ajaxStop(function () {
+        myVar = setTimeout(showPage, 1);
+    });
+    function showPage() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+    }
+</script>
+
+<div id="loader"></div>
+<section class="content">
+    <h2>Intent questions</h2>
+    <div class="row">
+       
+        <div class="col-md-12">
+            <div class="form-group has-feedback">
+                <input type="date" style="width:200px;float:left; margin-right:2px" class="form-control" id="startdate" />
+            </div>
+            <div class="form-group has-feedback">
+                <input type="date" style="width:200px;float:left;margin-right:2px" class="form-control" id="enddate" />
+            </div>
+            <div class="form-group has-feedback">
+                <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
+                <div class="pull-right">
+                    <i class="fa fa-arrow-circle-left"></i><a href="/home/top10"> back to top 10 report</a>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Intent Name </h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Detected Intent</th>
+                                    <th>Issue</th>
+                                    <th>Dates</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeReportChart"></tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+
+
+
+
+    </div>
+
+
+</section>
+

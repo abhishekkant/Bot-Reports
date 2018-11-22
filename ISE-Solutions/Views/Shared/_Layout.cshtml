@@ -44,7 +44,10 @@
 
         </style>*@
 
+   
+
 </head>
+
 <body class="hold-transition skin-blue layout-top-nav">
     <div class="wrapper">
 
@@ -127,44 +130,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active">
-                                @Html.ActionLink("Home", "Dashboard", "Home", new { Area = "" }, null)<span class="sr-only">(current)</span>
+                            <li id="Dashboard" >
+                                @Html.ActionLink("Home", "dashboard", "Home", new { Area = "" }, null)
                             </li>
-                            @*<li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sales <span class="caret"></span></a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Orders</a></li>
-                                        <li><a href="#">Shipments</a></li>
-                                        <li><a href="#">Return requests</a></li>
-
-                                    </ul>
-                                </li>*@
-                            @*<li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Listing <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">*@
-                                   
-                                   @* <li>@Html.ActionLink("Live Listing", "Publish", "Product", new { Area = "Catalog" }, null)</li>
-    <li>@Html.ActionLink("Non Live Listing", "list", "Product", new { Area = "Catalog" }, null)</li>
-    <li>@Html.ActionLink("Add New Listing", "ProductUpload", "Product", new { Area = "Catalog" }, null)</li>
-    <li>@Html.ActionLink("Product List", "list", "Product", new { Area = "Catalog" }, null)</li>*@
-                                    @*<li>@Html.ActionLink("Attribute List", "list", "Attribute", new { Area = "Catalog" }, null)</li>
-                                    <li>@Html.ActionLink("Attribute MAP", "AttrMap", "Attribute", new { Area = "Catalog" }, null)</li>*@
-
-                                @*</ul>
-                            </li>*@
-                         
-                            @*<li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Order <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/Htmlpage/ActiveOrder">Active Order</a>  </li>
-                                    <li><a href="/Htmlpage/CancelOrder">Cancelled Order</a> </li>
-
-
-                                </ul>
-                            </li>*@
-                          
-                            <li><a href="/home/top10">Top 10 Report</a></li>
-                            <li><a href="/home/addrow">Train</a></li>
+                            <li id="top10" ><a href="/home/top10">Top 10 Report</a></li>
+                            <li  id="addrow"><a href="/home/addrow">Train</a></li>
+                            <li id="AzureInsights"><a href="/AzureInsights/index">AzureInsights</a></li>
                         </ul>
 
                     </div>
@@ -223,5 +194,24 @@
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
          fixed layout. -->
+    <script>
+     var url = window.location.href;
+     //alert(url);
+     if (url.indexOf('dashboard') != -1) {
+         $('#Dashboard').addClass("active")
+     }
+     if (url.indexOf('top10') != -1) {
+         $('#top10').addClass("active")
+     }
+     if (url.indexOf('addrow') != -1) {
+         $('#addrow').addClass("active")
+        }
+     if (url.indexOf('AzureInsights') != -1) {
+            $('#AzureInsights').addClass("active")
+        }
+        
+    </script>
 </body>
+
+
 </html>

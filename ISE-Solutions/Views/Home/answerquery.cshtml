@@ -82,7 +82,18 @@
         //GetTop10DetectedIntent(StartDate, EndDate);
     }
 </script>
+<script>
+    var myVar;
+    $(document).ajaxStop(function () {
+        myVar = setTimeout(showPage, 1);
+    });
+    function showPage() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+    }
+</script>
 
+<div id="loader"></div>
 <section class="content">
 
     <div class="row">
@@ -96,6 +107,9 @@
             </div>
             <div class="form-group has-feedback">
                 <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
+                <div class="pull-right">
+                    <i class="fa fa-arrow-circle-left"></i><a href="/home/dashboard"> back to dashboard </a>
+                </div>
             </div>
         </div>
     </div>

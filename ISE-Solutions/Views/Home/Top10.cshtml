@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+    var StartDate = '';
+    var EndDate = '';
     function GetTop10TicketRaiseHistory(StartDate, EndDate) {
         
         var EmployeeHtml = "";
@@ -51,7 +53,7 @@
                     // TotalUnSolved.push(value.TotalUnSolved);
                     //Dates.push(value.Dates)
                     _Html += '<tr>';
-                    _Html += '<td><a href="#">' + value.DetectedIntent + '</a></td>';
+                    _Html += '<td><a href="/home/intentquestion?id=' + value.DetectedIntent+'">' + value.DetectedIntent + '</a></td>';
                     _Html += '<td>' + value.DetectedIntentCount + '</td>';
                     _Html += '</tr>';
                 });
@@ -70,8 +72,7 @@
     
     $(function () {
 
-        var StartDate = '';
-        var EndDate = '';
+       
 
         var date = new Date();
         var day = date.getDate();
@@ -104,12 +105,36 @@
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
 
-        var StartDate = $('#startdate').val();
-        var EndDate = $('#enddate').val();
+        StartDate = $('#startdate').val();
+        EndDate = $('#enddate').val();
         GetTop10TicketRaiseHistory(StartDate, EndDate);
         GetTop10DetectedIntent(StartDate, EndDate);
     }
+
+    function exportexcel(mode)
+    {
+        if (mode == 'RaisedTickets') {
+            window.location = "/ExcelExport/Top10TicketRaiseExport?SDate=" + StartDate + "&EDate=" + EndDate + "";
+        }
+        if (mode =='Intents')
+        {
+            window.location = "/ExcelExport/Top10DetectedIntentExport?SDate=" + StartDate + "&EDate=" + EndDate + "";
+        }
+
+    }
 </script>
+<script>
+    var myVar;
+    $(document).ajaxStop(function () {
+        myVar = setTimeout(showPage, 1);
+    });
+    function showPage() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("myDiv").style.display = "block";
+    }
+</script>
+
+<div id="loader"></div>
 <section class="content">
   
     <div class="row">
@@ -135,10 +160,14 @@
                     <h3 class="box-title">TOP 10 Employees Raised Tickets  </h3>
 
                     <div class="box-tools pull-right">
+                        <button type="button" onclick="exportexcel('RaisedTickets')" class="btn btn-box-tool">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                        @*<a id="aaaaa" href="/ExcelExport/Top10ExportToExcel?SDate='10/10/2018'&EDate='10/11/2018'" style="margin:10px;"><i class="fa fa-file-excel-o"></i></a>*@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        @*<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>*@
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -169,10 +198,14 @@
                     <h3 class="box-title">TOP 10 Intents   </h3>
 
                     <div class="box-tools pull-right">
+                        <button type="button" onclick="exportexcel('Intents')" class="btn btn-box-tool">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                        @*<a  href="../../query/exporttoexcel/" style="margin:10px;"><i class="fa fa-file-excel-o"></i></a>*@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        @*<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>*@
                     </div>
                 </div>
                 <!-- /.box-header -->

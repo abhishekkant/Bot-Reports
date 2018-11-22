@@ -38,7 +38,58 @@ namespace ISE_Solutions.Controllers
 
             return View();
         }
+        public ActionResult intentquestion(string id)
+        {
+            return View();
+        }
 
+        public async Task<JsonResult> GetIntentIssesGrid(string SDate, string EDate, string DetectedIntent)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                table = tableClient.GetTableReference("SolutionProvidedReport");
+
+                await table.CreateIfNotExistsAsync();
+
+                string StartdateString = SDate;
+                string EnddateString = EDate;
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
+                var SutdentListObj1 = SutdentListObj.Where(item => ((item.Timestamp >= StartDate && item.Timestamp <= EndDate) && item.DetectedIntent == DetectedIntent)).OrderByDescending(item => item.Timestamp).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
+                    SolutionResult resultdata = new SolutionResult();
+
+                    resultdata.DetectedIntent += DetectedIntent;
+                    resultdata.Issue += singleData.Issue;
+                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
+                    resultdata.SolvedStatus += singleData.IsSolved;
+                    ResultRecordJson.Add(resultdata);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public async Task<JsonResult> GetAnswerqueryReport(string SDate, string EDate)
         {
@@ -63,7 +114,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.IsSolved).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -124,7 +175,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -193,7 +244,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -259,7 +310,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
 
                 //List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>("Timestamp gt '" + StartDate + "' and Timestamp lt '" + EndDate + "'");
 
@@ -334,7 +385,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -401,7 +452,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
                 //    .Select(g => new {
                 //    Date = g.Key,
@@ -481,7 +532,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.QueryCategory).ToList();
                
                 foreach (var singleData in SutdentListObj1)
@@ -537,7 +588,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -595,7 +646,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -653,7 +704,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -711,7 +762,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -770,7 +821,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.EmployeeID).Take(10).OrderByDescending(g => g.Count()).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -824,7 +875,7 @@ namespace ISE_Solutions.Controllers
                 DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();//"RowKey eq '636764819133111512'"
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.DetectedIntent).Take(10).OrderByDescending(g => g.Count()).ToList();
 
                 foreach (var singleData in SutdentListObj1)
@@ -880,113 +931,110 @@ namespace ISE_Solutions.Controllers
 
         }
 
-    public class SolutionProvidedReport : TableEntity
-    {
-        public string Issue { get; set; }
-        public string UserId { get; set; }
-        public DateTime Timestamp1 { get; set; }
-        public bool? IsSolved { get; set; }
-        public int Rating { get; set; }
-        public string QueryCategory { get; set; }
-        public string Category { get; set; }
-        public string DetectedIntent { get; set; }
+    //public class SolutionProvidedReport : TableEntity
+    //{
+    //    public string Issue { get; set; }
+    //    public string UserId { get; set; }
+    //    public DateTime Timestamp1 { get; set; }
+    //    public bool? IsSolved { get; set; }
+    //    public int Rating { get; set; }
+    //    public string QueryCategory { get; set; }
+    //    public string Category { get; set; }
+    //    public string DetectedIntent { get; set; }
         
-        public string EmployeeID { get; set; }
-        public String FunctionLocation { get; set; }
-        public String ExceptionMessage { get; set; }
-        public String Query { get; set; }
-        public List<SolutionProvidedReportValues> IsSolvedRecord { get; set; }
-        public List<SolutionResult> SolutionResult { get; set; }
+    //    public string EmployeeID { get; set; }
+    //    public String FunctionLocation { get; set; }
+    //    public String ExceptionMessage { get; set; }
+    //    public String Query { get; set; }
+    //    public List<SolutionProvidedReportValues> IsSolvedRecord { get; set; }
+    //    public List<SolutionResult> SolutionResult { get; set; }
 
-        public String Description { get; set; }
-        public String TicketID { get; set; }
-        public String SubCategory { get; set; }
-        public String Location { get; set; }
-        public String Status { get; set; }
+    //    public String Description { get; set; }
+    //    public String TicketID { get; set; }
+    //    public String SubCategory { get; set; }
+    //    public String Location { get; set; }
+    //    public String Status { get; set; }
 
-    }
-    public class SolutionProvidedReportValues : TableEntity
-    {
-        public String Timestamp1 { get; set; }
-        public bool? IsSolved { get; set; }
-        public  int  isSolvedTrue { get; set; }
-        public int isSolvedFalse { get; set; }
-        public int isRatingFalse { get; set; }
-        public int isRatingTrue { get; set; }
-        public int RatingCount { get; set; }
-        public int RatingTotal { get; set; }
-
-        public String Department { get; set; }
-        public String Issue { get; set; }
-        public String SolvedStatus { get; set; }
-        public String EmployeeID { get; set; }
-        public String DetectedIntent { get; set; }
+    //}
+    //public class SolutionProvidedReportValues : TableEntity
+    //{
+    //    public String Timestamp1 { get; set; }
+    //    public bool? IsSolved { get; set; }
+    //    public  int  isSolvedTrue { get; set; }
+    //    public int isSolvedFalse { get; set; }
+    //    public int isRatingFalse { get; set; }
+    //    public int isRatingTrue { get; set; }
+    //    public int RatingCount { get; set; }
+    //    public int RatingTotal { get; set; }
+    //    public String Department { get; set; }
+    //    public String Issue { get; set; }
+    //    public String SolvedStatus { get; set; }
+    //    public String EmployeeID { get; set; }
+    //    public String DetectedIntent { get; set; }
+    //    public int Values { get; set; }
+    //    public int FailedTicket { get; set; }
+    //    public int TicketRaised { get; set; }
+    //    public int ExceptionLog { get; set; }
+    //    public int IntentNotunderstood { get; set; }
         
-        public int Values { get; set; }
-        public int FailedTicket { get; set; }
-        public int TicketRaised { get; set; }
+    //}
+    //public class SolutionResult: TableEntity
+    //{
+    //    public String TotalSolved { get; set; }
+    //    public String TotalUnSolved { get; set; }
+    //    public String TotalRating { get; set; }
+    //    public String TotalNoRating { get; set; }
+    //    public String Dates { get; set; }
+    //    public String EmployeeID { get; set; }
+    //    public String DetectedIntent { get; set; }
+    //    public String Issue { get; set; }
 
-        public int ExceptionLog { get; set; }
-        public int IntentNotunderstood { get; set; }
-        
-    }
-    public class SolutionResult: TableEntity
-    {
-        public String TotalSolved { get; set; }
-        public String TotalUnSolved { get; set; }
-        public String TotalRating { get; set; }
-        public String TotalNoRating { get; set; }
-        public String Dates { get; set; }
-        public String EmployeeID { get; set; }
-        public String DetectedIntent { get; set; }
-        public String Issue { get; set; }
+    //    public String SolvedStatus { get; set; }
+    //    public int AvgRating { get; set; }
 
-        public String SolvedStatus { get; set; }
-        public int AvgRating { get; set; }
+    //    public int FailedTicketCount{ get; set; }
+    //    public int TicketRaisedCount { get; set; }
+    //    public int ExceptionLogCount { get; set; }
 
-        public int FailedTicketCount{ get; set; }
-        public int TicketRaisedCount { get; set; }
-        public int ExceptionLogCount { get; set; }
+    //    public int IntentNotunderstoodCount { get; set; }
+    //    public int DetectedIntentCount { get; set; }
 
-        public int IntentNotunderstoodCount { get; set; }
-        public int DetectedIntentCount { get; set; }
-
-        public String FunctionLocation { get; set; }
-        public String ExceptionMessage { get; set; }
-        public String Query { get; set; }
+    //    public String FunctionLocation { get; set; }
+    //    public String ExceptionMessage { get; set; }
+    //    public String Query { get; set; }
         
             
             
 
-    }
-    public class PieChartSolutionResult : TableEntity
-    {
-        public String category { get; set; }
-        public int value { get; set; }
-        public String Department { get; set; }
-        public String EmployeeID { get; set; }
-        public String Description { get; set; }
-        public String TicketID { get; set; }
-        public String SubCategory { get; set; }
-        public String Location { get; set; }
-        public String Status { get; set; }
-        public String QueryCategory { get; set; }
+    //}
+    //public class PieChartSolutionResult : TableEntity
+    //{
+    //    public String category { get; set; }
+    //    public int value { get; set; }
+    //    public String Department { get; set; }
+    //    public String EmployeeID { get; set; }
+    //    public String Description { get; set; }
+    //    public String TicketID { get; set; }
+    //    public String SubCategory { get; set; }
+    //    public String Location { get; set; }
+    //    public String Status { get; set; }
+    //    public String QueryCategory { get; set; }
         
-        public String Dates { get; set; }
-    }
-    public class ComplaintsEntity : TableEntity
+    //    public String Dates { get; set; }
+    //}
+    //public class ComplaintsEntity : TableEntity
 
-    {
-        public ComplaintsEntity() { }
-        public ComplaintsEntity(string pkey, string rkey)
-        {
-            this.PartitionKey = pkey;
-            this.RowKey = rkey;
-        }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string mobileNo { get; set; }
+    //{
+    //    public ComplaintsEntity() { }
+    //    public ComplaintsEntity(string pkey, string rkey)
+    //    {
+    //        this.PartitionKey = pkey;
+    //        this.RowKey = rkey;
+    //    }
+    //    public string first_name { get; set; }
+    //    public string last_name { get; set; }
+    //    public string mobileNo { get; set; }
 
-    }
+    //}
 
 }

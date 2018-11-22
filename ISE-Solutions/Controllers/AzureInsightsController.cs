@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,28 +13,56 @@ namespace ISE_Solutions.Controllers
     public class AzureInsightsController : Controller
     {
         // GET: AzureInsights
+        String AzureInsightsApplicationID = Convert.ToString(ConfigurationManager.AppSettings["AzureInsightsApplicationID"]);
+        String AzureInsightsAppKey = Convert.ToString(ConfigurationManager.AppSettings["AzureInsightsAppKey"]);
+        private static TimeZoneInfo INDIAN_ZONE = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
         public ActionResult Index()
         {
-
-            var webAddr = "https://api.applicationinsights.io/v1/apps/DEMO_APP/metrics/users/count?timespan=P1D&interval=PT3H&top=10";
-            var httpWebRequest = (System.Net.HttpWebRequest)WebRequest.Create(webAddr);
-
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Headers.Add("x-api-key", "DEMO_KEY");
-            httpWebRequest.ContentLength = 0;
-            httpWebRequest.Method = "GET";
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                result = result.Replace("users/count", "userscount");
-                var model = JsonConvert.DeserializeObject<RootObject>(result);
-            }
-
             return View();
         }
 
+        [HttpGet]
+        public JsonResult GetUserCount(string Timespan, string Interval)
+        {
+            var webAddr = "https://api.applicationinsights.io/v1/apps/"+ AzureInsightsApplicationID + "/metrics/users/count?timespan="+ Timespan + "&interval="+ Interval + "";//&top=10
+            var httpWebRequest = (System.Net.HttpWebRequest)WebRequest.Create(webAddr);
+
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Headers.Add("x-api-key", ""+AzureInsightsAppKey+"");
+            httpWebRequest.ContentLength = 0;
+            httpWebRequest.Method = "GET";
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+            try
+            {
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    result = result.Replace("users/count", "userscount");
+                    var model = JsonConvert.DeserializeObject<RootObject>(result);
+                   
+                    foreach (var singleData in model.value.segments)
+                    {
+                       
+                        SolutionResult resultdata = new SolutionResult();
+                        resultdata.Uniquecount = singleData.userscount.unique;
+                        resultdata.Date = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(singleData.end), INDIAN_ZONE).ToString("dd MMM, HH:MM"); 
+                        ResultRecordJson.Add(resultdata);
+                    }
+                 
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
 
         public class UsersCount
         {
@@ -45,20 +74,25 @@ namespace ISE_Solutions.Controllers
             public DateTime start { get; set; }
             public DateTime end { get; set; }
             public UsersCount userscount { get; set; }
-         }
+        }
 
-    public class Value
-    {
-        public DateTime start { get; set; }
-        public DateTime end { get; set; }
-        public string interval { get; set; }
-        public List<Segment> segments { get; set; }
-    }
+        public class Value
+        {
+            public DateTime start { get; set; }
+            public DateTime end { get; set; }
+            public string interval { get; set; }
+            public List<Segment> segments { get; set; }
+        }
 
-    public class RootObject
-    {
-        public Value value { get; set; }
-    }
-
+        public class RootObject
+        {
+            public Value value { get; set; }
+           // public List<SolutionResult> SolutionResult { get; set; }
+        }
+        public class SolutionResult
+        {
+            public int Uniquecount { get; set; }
+            public string Date { get; set; }
+        }
     }
 }

@@ -69,6 +69,8 @@ namespace ISE_Solutions.Model
 
         public int FailedTicketCount { get; set; }
         public int TicketRaisedCount { get; set; }
+        public String Userid { get; set; }
+        public int QuestionCount { get; set; }
         public int ExceptionLogCount { get; set; }
 
         public int IntentNotunderstoodCount { get; set; }
@@ -124,6 +126,7 @@ namespace ISE_Solutions.Model
         public bool RememberMe { get; set; }
        
         public string Message { get; set; }
-
+      
     }
+    
 }

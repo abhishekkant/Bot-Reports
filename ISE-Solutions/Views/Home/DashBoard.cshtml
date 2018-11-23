@@ -84,7 +84,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+               // alert('Failed.' + ex);
             }
         });
 
@@ -161,7 +161,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+              //  alert('Failed.' + ex);
             }
         });
     }
@@ -236,7 +236,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+               // alert('Failed.' + ex);
             }
         });
     }
@@ -291,7 +291,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+               // alert('Failed.' + ex);
             }
         });
     }
@@ -369,7 +369,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+               // alert('Failed.' + ex);
             }
         });
     }
@@ -445,7 +445,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+              //  alert('Failed.' + ex);
             }
         });
     }
@@ -466,12 +466,7 @@
                     //TotalUnSolved.push(value.TotalNoRating);
                     Dates.push(value.Dates)
                 });
-                //debugger
-                //for (var i=0; i < 5; i++)
-                //{
-                //   // TotalSolved.push(i+2);
-                //   // TotalUnSolved.push(i + 4);
-                //}
+               
                 $("#ExceptionLogChart").kendoChart({
 
                     title: {
@@ -521,7 +516,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+                //alert('Failed.' + ex);
             }
         });
     }
@@ -543,12 +538,7 @@
                     //TotalUnSolved.push(value.TotalNoRating);
                     Dates.push(value.Dates)
                 });
-                //debugger
-                //for (var i=0; i < 5; i++)
-                //{
-                //   // TotalSolved.push(i+2);
-                //   // TotalUnSolved.push(i + 4);
-                //}
+                
                 $("#IntentNotunderstoodChart").kendoChart({
 
                     title: {
@@ -598,7 +588,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+                //alert('Failed.' + ex);
             }
         });
     }
@@ -676,66 +666,9 @@
 </script>
 
 <div id="loader"></div>
-<section class="content">
-    
-    @*<div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa  fa-space-shuttle"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Upcoming Order</span>
-                    <span class="info-box-number">4</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-shopping-cart"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">New Order</span>
-                    <span class="info-box-number">19</span>
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-truck"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Handover Order</span>
-                    <span class="info-box-number">25</span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="fa fa-rocket"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Sale Order</span>
-                    <span class="info-box-number">2,000</span>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>*@
+      <section class="content">
+  
         <div class="row">
-
         <div class="col-md-12">
                <div class="form-group has-feedback">
                 <input type="date" style="width:200px;float:left; margin-right:2px" class="form-control" id="startdate" />
@@ -773,39 +706,30 @@
                     </div>
 
                 </div>
-                
-               
-
             </div>
       <div class="row" style="margin-top:10px">
-         
         <div class="col-md-6">
-           
             <div id="example">
                 <div class="demo-section k-content wide">
                     <div id="AvgRatingchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                 </div>
             </div>
-
         </div>
           <div class="col-md-6">
               <div id="example">
                   <div class="demo-section k-content wide">
                       <div id="TicketHistorychart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                   </div>
-                
               </div>
           </div>
           </div>
     <div class="row" style="margin-top:10px">
-
         <a href="/home/tickets">
             <div class="col-md-6">
                 <div id="example">
                     <div class="demo-section k-content wide">
                         <div id="TicketRaisedChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                     </div>
-
                 </div>
             </div>
         </a>
@@ -814,7 +738,6 @@
                     <div class="demo-section k-content wide">
                         <div id="FailedTicketSubmissionChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                     </div>
-
                 </div>
             </div>
 </div>
@@ -824,7 +747,6 @@
                 <div class="demo-section k-content wide">
                     <div id="ExceptionLogChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                 </div>
-
             </div>
         </div>
         <a href="/home/intentnotunderstand">
@@ -833,7 +755,6 @@
                     <div class="demo-section k-content wide">
                         <div id="IntentNotunderstoodChart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
                     </div>
-
                 </div>
             </div>
         </a>

@@ -1,15 +1,13 @@
-﻿using ISE_Solutions.Model;
-using System.Web.Mvc;
-using System.Threading.Tasks;
-using System;
-using Microsoft.Azure; // Namespace for CloudConfigurationManager
-using Microsoft.WindowsAzure.Storage.Table;
-//using Microsoft.Azure.CosmosDB.Table; // Namespace for Table storage types
+﻿using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using System.Linq;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using ISE_Solutions.Model;
+using Microsoft.Azure; // Namespace for CloudConfigurationManager
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 
 namespace ISE_Solutions.Controllers
 {
@@ -21,271 +19,13 @@ namespace ISE_Solutions.Controllers
            
             return View("Login");
         }
-
-        public ActionResult Top10()
-        {
-
-            return View();
-        }
         public ActionResult addrow()
         {
-
             return View();
         }
 
-        public ActionResult answerquery()
-        {
-
-            return View();
-        }
-        public ActionResult intentquestion(string id)
-        {
-            return View();
-        }
-
-        public async Task<JsonResult> GetIntentIssesGrid(string SDate, string EDate, string DetectedIntent)
-        {
-            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
-            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
-
-            try
-            {
-                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                table = tableClient.GetTableReference("SolutionProvidedReport");
-
-                await table.CreateIfNotExistsAsync();
-
-                string StartdateString = SDate;
-                string EnddateString = EDate;
-                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
-                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
-
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => ((item.Timestamp >= StartDate && item.Timestamp <= EndDate) && item.DetectedIntent == DetectedIntent)).OrderByDescending(item => item.Timestamp).ToList();
-
-                foreach (var singleData in SutdentListObj1)
-                {
-                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
-                    SolutionResult resultdata = new SolutionResult();
-
-                    resultdata.DetectedIntent += DetectedIntent;
-                    resultdata.Issue += singleData.Issue;
-                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
-                    resultdata.SolvedStatus += singleData.IsSolved;
-                    ResultRecordJson.Add(resultdata);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.Utility.GenrateLog(ex.Message);
-            }
-            finally
-            {
-
-            }
-            var output = JsonConvert.SerializeObject(ResultRecordJson);
-            return Json(output, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public async Task<JsonResult> GetAnswerqueryReport(string SDate, string EDate)
-        {
-            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
-            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
-
-            try
-            {
-                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
-                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
-                table = tableClient.GetTableReference("SolutionProvidedReport");
-
-                await table.CreateIfNotExistsAsync();
-
-                string StartdateString = SDate;
-                string EnddateString = EDate;
-                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
-                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
-
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.IsSolved).ToList();
-
-                foreach (var singleData in SutdentListObj1)
-                {
-                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
-                    SolutionResult resultdata = new SolutionResult();
-                    // DataList.EmployeeID = (singleData.Key).ToString();
-                    //DataList.Values = singleData.Count();
-                    resultdata.DetectedIntent += singleData.DetectedIntent;
-                    resultdata.Issue += singleData.Issue;
-                    resultdata.SolvedStatus += Convert.ToString(singleData.IsSolved);
-                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
-                    ResultRecordJson.Add(resultdata);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.Utility.GenrateLog(ex.Message);
-            }
-            finally
-            {
-
-            }
-            var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
-            return Json(output, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult tickets()
-        {
-
-            return View();
-        }
-        public async Task<JsonResult> GetTicketgrid(string SDate, string EDate)
-        {
-            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
-            List<PieChartSolutionResult> ResultRecordJson = new List<PieChartSolutionResult>();
-
-            try
-            {
-                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
-                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
-                table = tableClient.GetTableReference("TicketRaisedHistory");
-
-                await table.CreateIfNotExistsAsync();
-
-                string StartdateString = SDate;
-                string EnddateString = EDate;
-                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
-                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
-
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
-
-                foreach (var singleData in SutdentListObj1)
-                {
-                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
-                    PieChartSolutionResult resultdata = new PieChartSolutionResult();
-                   // DataList.Department = (singleData.Key).ToString();
-                   // DataList.Values = singleData.Count();
-
-                    resultdata.EmployeeID += singleData.EmployeeID;
-                    resultdata.TicketID += singleData.TicketID;
-                    resultdata.SubCategory += singleData.SubCategory;
-                    resultdata.QueryCategory += singleData.QueryCategory;
-                    resultdata.category += singleData.Category;
-                    resultdata.Location += singleData.Location;
-                    resultdata.Status += singleData.Status;
-                    resultdata.Description += singleData.Description;
-                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
-                    ResultRecordJson.Add(resultdata);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.Utility.GenrateLog(ex.Message);
-            }
-            finally
-            {
-
-            }
-            var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
-            return Json(output, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public ActionResult intentnotunderstand()
-        {
-
-            return View();
-        }
-        [HttpGet]
-        public async Task<JsonResult> GetIntentNotunderstoodGrid(string SDate, string EDate)
-        {
-            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
-            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
-
-            try
-            {
-                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
-                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
-                table = tableClient.GetTableReference("IntentNotunderstood");
-
-                await table.CreateIfNotExistsAsync();
-
-                string StartdateString = SDate; //"2018-10-25T00:00:00.000Z";
-                string EnddateString = EDate;// "2018-11-10T00:00:00.000Z";
-                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
-                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
-
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
-
-                foreach (var singleData in SutdentListObj1)
-                {
-                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
-                    SolutionResult resultdata = new SolutionResult();
-                    //DataList.Timestamp1 = (singleData.Key).ToString();
-                    //DataList.IntentNotunderstood = singleData.Count();
-
-                    // resultdata.TotalNoRating += DataList.FailedTicket; //+ ", ";
-                    resultdata.FunctionLocation += singleData.FunctionLocation;
-                    resultdata.ExceptionMessage += singleData.ExceptionMessage;
-                    resultdata.Query += singleData.Query;
-                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");// + ", ";
-
-                    ResultRecordJson.Add(resultdata);
-                    //IsSolvedRecordJson.Add(DataList);
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.Utility.GenrateLog(ex.Message);
-            }
-            finally
-            {
-
-            }
-            var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
-            return Json(output, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult DashBoard(HomeLoginViewModel objLogin)
-        {
-           
-            return View();
-           
-        }
+      
+        #region DashboardChart
         [HttpGet]
         public async Task<JsonResult> GetIsSolvedReport(string SDate, string EDate)
         {
@@ -297,10 +37,8 @@ namespace ISE_Solutions.Controllers
                 {
                 string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
+
                 Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
                 table = tableClient.GetTableReference("SolutionProvidedReport");
 
                 await table.CreateIfNotExistsAsync();
@@ -312,14 +50,7 @@ namespace ISE_Solutions.Controllers
 
                 List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
 
-                //List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>("Timestamp gt '" + StartDate + "' and Timestamp lt '" + EndDate + "'");
-
-
                 var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.Timestamp.Date).ToList();
-
-               
-
-               
 
                 foreach (var singleData in SutdentListObj1)
                 {
@@ -354,11 +85,7 @@ namespace ISE_Solutions.Controllers
                     
                 }
                var output = JsonConvert.SerializeObject(ResultRecordJson);
-           // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-            
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
-            return Json(output,JsonRequestBehavior.AllowGet);
+              return Json(output,JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -441,8 +168,7 @@ namespace ISE_Solutions.Controllers
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
                 // Create the table client.
                 Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
+                
                 table = tableClient.GetTableReference("SolutionProvidedReport");
 
                 await table.CreateIfNotExistsAsync();
@@ -483,12 +209,10 @@ namespace ISE_Solutions.Controllers
                         resultdata.AvgRating += (DataList.RatingTotal / DataList.RatingCount);
                     }
                     else resultdata.AvgRating = 0;
-                    //+ ", ";
-                    //resultdata.TotalRating += DataList.isRatingTrue;// + ", ";
+                   
                     resultdata.Dates += Convert.ToDateTime(DataList.Timestamp1).ToString("dd MMM");// + ", ";
-
                     ResultRecordJson.Add(resultdata);
-                    //IsSolvedRecordJson.Add(DataList);
+                 
                 }
             }
             catch (Exception ex)
@@ -500,13 +224,8 @@ namespace ISE_Solutions.Controllers
 
             }
             var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
             return Json(output, JsonRequestBehavior.AllowGet);
         }
-
 
         [HttpGet]
         public async Task<JsonResult> GetTicketRaiseHistoryReport(string SDate, string EDate)
@@ -556,10 +275,6 @@ namespace ISE_Solutions.Controllers
 
             }
             var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
@@ -615,10 +330,6 @@ namespace ISE_Solutions.Controllers
 
             }
             var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
@@ -673,10 +384,7 @@ namespace ISE_Solutions.Controllers
 
             }
             var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
+           
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
@@ -796,63 +504,15 @@ namespace ISE_Solutions.Controllers
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
-
-        [HttpGet]
-        public async Task<JsonResult> GetTop10TicketRaiseHistoryReport(string SDate, string EDate)
+        #endregion
+        #region DashboardChartinTable
+        public ActionResult answerquery()
         {
-            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
-            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
-            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
 
-            try
-            {
-                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
-                // Create the table client.
-                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                // Retrieve a reference to the table.
-                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
-                table = tableClient.GetTableReference("TicketRaisedHistory");
-
-                await table.CreateIfNotExistsAsync();
-
-                string StartdateString = SDate;
-                string EnddateString = EDate;
-                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
-                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
-
-                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.EmployeeID).Take(10).OrderByDescending(g => g.Count()).ToList();
-
-                foreach (var singleData in SutdentListObj1)
-                {
-                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
-                    SolutionResult resultdata = new SolutionResult();
-                    DataList.EmployeeID = (singleData.Key).ToString();
-                    DataList.Values = singleData.Count();
-                    resultdata.EmployeeID += DataList.EmployeeID;
-                    resultdata.TicketRaisedCount += DataList.Values;
-                    ResultRecordJson.Add(resultdata);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.Utility.GenrateLog(ex.Message);
-            }
-            finally
-            {
-
-            }
-            var output = JsonConvert.SerializeObject(ResultRecordJson);
-            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
-
-            // return Json(resultData, JsonRequestBehavior.AllowGet);
-            //return Json(c, JsonRequestBehavior.AllowGet);
-            return Json(output, JsonRequestBehavior.AllowGet);
+            return View();
         }
         [HttpGet]
-        public async Task<JsonResult> GetTop10DetectedIntent(string SDate, string EDate)
+        public async Task<JsonResult> GetAnswerqueryReport(string SDate, string EDate)
         {
             string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
             List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
@@ -876,16 +536,18 @@ namespace ISE_Solutions.Controllers
                 DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
 
                 List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
-                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).GroupBy(item => item.DetectedIntent).Take(10).OrderByDescending(g => g.Count()).ToList();
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.IsSolved).ToList();
 
                 foreach (var singleData in SutdentListObj1)
                 {
                     SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
                     SolutionResult resultdata = new SolutionResult();
-                    DataList.DetectedIntent = (singleData.Key).ToString();
-                    DataList.Values = singleData.Count();
-                    resultdata.DetectedIntent += DataList.DetectedIntent;
-                    resultdata.DetectedIntentCount += DataList.Values;
+                    // DataList.EmployeeID = (singleData.Key).ToString();
+                    //DataList.Values = singleData.Count();
+                    resultdata.DetectedIntent += singleData.DetectedIntent;
+                    resultdata.Issue += singleData.Issue;
+                    resultdata.SolvedStatus += Convert.ToString(singleData.IsSolved);
+                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
                     ResultRecordJson.Add(resultdata);
 
                 }
@@ -905,6 +567,144 @@ namespace ISE_Solutions.Controllers
             //return Json(c, JsonRequestBehavior.AllowGet);
             return Json(output, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult tickets()
+        {
+
+            return View();
+        }
+        public async Task<JsonResult> GetTicketgrid(string SDate, string EDate)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<PieChartSolutionResult> ResultRecordJson = new List<PieChartSolutionResult>();
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                // Create the table client.
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Retrieve a reference to the table.
+                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
+                table = tableClient.GetTableReference("TicketRaisedHistory");
+
+                await table.CreateIfNotExistsAsync();
+
+                string StartdateString = SDate;
+                string EnddateString = EDate;
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
+                    PieChartSolutionResult resultdata = new PieChartSolutionResult();
+                    // DataList.Department = (singleData.Key).ToString();
+                    // DataList.Values = singleData.Count();
+
+                    resultdata.EmployeeID += singleData.EmployeeID;
+                    resultdata.TicketID += singleData.TicketID;
+                    resultdata.SubCategory += singleData.SubCategory;
+                    resultdata.QueryCategory += singleData.QueryCategory;
+                    resultdata.category += singleData.Category;
+                    resultdata.Location += singleData.Location;
+                    resultdata.Status += singleData.Status;
+                    resultdata.Description += singleData.Description;
+                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
+                    ResultRecordJson.Add(resultdata);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
+
+            // return Json(resultData, JsonRequestBehavior.AllowGet);
+            //return Json(c, JsonRequestBehavior.AllowGet);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult intentnotunderstand()
+        {
+
+            return View();
+        }
+        [HttpGet]
+        public async Task<JsonResult> GetIntentNotunderstoodGrid(string SDate, string EDate)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                // Create the table client.
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                // Retrieve a reference to the table.
+                // CloudTable table = tableClient.GetTableReference("SolutionProvidedReport");
+                table = tableClient.GetTableReference("IntentNotunderstood");
+
+                await table.CreateIfNotExistsAsync();
+
+                string StartdateString = SDate; //"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate;// "2018-11-10T00:00:00.000Z";
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Timestamp >= StartDate && item.Timestamp <= EndDate).OrderByDescending(item => item.Timestamp).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    SolutionProvidedReportValues DataList = new SolutionProvidedReportValues();
+                    SolutionResult resultdata = new SolutionResult();
+                    //DataList.Timestamp1 = (singleData.Key).ToString();
+                    //DataList.IntentNotunderstood = singleData.Count();
+
+                    // resultdata.TotalNoRating += DataList.FailedTicket; //+ ", ";
+                    resultdata.FunctionLocation += singleData.FunctionLocation;
+                    resultdata.ExceptionMessage += singleData.ExceptionMessage;
+                    resultdata.Query += singleData.Query;
+                    resultdata.Dates += Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");// + ", ";
+
+                    ResultRecordJson.Add(resultdata);
+                    //IsSolvedRecordJson.Add(DataList);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            // var resultData = new {TotalSolved = TotalSolved, TotalUnSolved = TotalUnSolved, Dates = Dates };
+
+            // return Json(resultData, JsonRequestBehavior.AllowGet);
+            //return Json(c, JsonRequestBehavior.AllowGet);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DashBoard(HomeLoginViewModel objLogin)
+        {
+
+            return View();
+
+        }
+        #endregion
+
         public List<T> RetrieveEntity<T>(string Query = null) where T : TableEntity, new()
         {
           
@@ -928,113 +728,6 @@ namespace ISE_Solutions.Controllers
             }
         }
 
-
         }
-
-    //public class SolutionProvidedReport : TableEntity
-    //{
-    //    public string Issue { get; set; }
-    //    public string UserId { get; set; }
-    //    public DateTime Timestamp1 { get; set; }
-    //    public bool? IsSolved { get; set; }
-    //    public int Rating { get; set; }
-    //    public string QueryCategory { get; set; }
-    //    public string Category { get; set; }
-    //    public string DetectedIntent { get; set; }
-        
-    //    public string EmployeeID { get; set; }
-    //    public String FunctionLocation { get; set; }
-    //    public String ExceptionMessage { get; set; }
-    //    public String Query { get; set; }
-    //    public List<SolutionProvidedReportValues> IsSolvedRecord { get; set; }
-    //    public List<SolutionResult> SolutionResult { get; set; }
-
-    //    public String Description { get; set; }
-    //    public String TicketID { get; set; }
-    //    public String SubCategory { get; set; }
-    //    public String Location { get; set; }
-    //    public String Status { get; set; }
-
-    //}
-    //public class SolutionProvidedReportValues : TableEntity
-    //{
-    //    public String Timestamp1 { get; set; }
-    //    public bool? IsSolved { get; set; }
-    //    public  int  isSolvedTrue { get; set; }
-    //    public int isSolvedFalse { get; set; }
-    //    public int isRatingFalse { get; set; }
-    //    public int isRatingTrue { get; set; }
-    //    public int RatingCount { get; set; }
-    //    public int RatingTotal { get; set; }
-    //    public String Department { get; set; }
-    //    public String Issue { get; set; }
-    //    public String SolvedStatus { get; set; }
-    //    public String EmployeeID { get; set; }
-    //    public String DetectedIntent { get; set; }
-    //    public int Values { get; set; }
-    //    public int FailedTicket { get; set; }
-    //    public int TicketRaised { get; set; }
-    //    public int ExceptionLog { get; set; }
-    //    public int IntentNotunderstood { get; set; }
-        
-    //}
-    //public class SolutionResult: TableEntity
-    //{
-    //    public String TotalSolved { get; set; }
-    //    public String TotalUnSolved { get; set; }
-    //    public String TotalRating { get; set; }
-    //    public String TotalNoRating { get; set; }
-    //    public String Dates { get; set; }
-    //    public String EmployeeID { get; set; }
-    //    public String DetectedIntent { get; set; }
-    //    public String Issue { get; set; }
-
-    //    public String SolvedStatus { get; set; }
-    //    public int AvgRating { get; set; }
-
-    //    public int FailedTicketCount{ get; set; }
-    //    public int TicketRaisedCount { get; set; }
-    //    public int ExceptionLogCount { get; set; }
-
-    //    public int IntentNotunderstoodCount { get; set; }
-    //    public int DetectedIntentCount { get; set; }
-
-    //    public String FunctionLocation { get; set; }
-    //    public String ExceptionMessage { get; set; }
-    //    public String Query { get; set; }
-        
-            
-            
-
-    //}
-    //public class PieChartSolutionResult : TableEntity
-    //{
-    //    public String category { get; set; }
-    //    public int value { get; set; }
-    //    public String Department { get; set; }
-    //    public String EmployeeID { get; set; }
-    //    public String Description { get; set; }
-    //    public String TicketID { get; set; }
-    //    public String SubCategory { get; set; }
-    //    public String Location { get; set; }
-    //    public String Status { get; set; }
-    //    public String QueryCategory { get; set; }
-        
-    //    public String Dates { get; set; }
-    //}
-    //public class ComplaintsEntity : TableEntity
-
-    //{
-    //    public ComplaintsEntity() { }
-    //    public ComplaintsEntity(string pkey, string rkey)
-    //    {
-    //        this.PartitionKey = pkey;
-    //        this.RowKey = rkey;
-    //    }
-    //    public string first_name { get; set; }
-    //    public string last_name { get; set; }
-    //    public string mobileNo { get; set; }
-
-    //}
 
 }

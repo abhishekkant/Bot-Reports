@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+    var StartDate = '';
+    var EndDate = '';
     function GetTop10TicketRaiseHistory(StartDate, EndDate) {
 
         var EmployeeHtml = "";
@@ -42,8 +44,7 @@
 
     $(function () {
 
-        var StartDate = '';
-        var EndDate = '';
+       
 
         var date = new Date();
         var day = date.getDate();
@@ -76,10 +77,16 @@
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
 
-        var StartDate = $('#startdate').val();
-        var EndDate = $('#enddate').val();
+         StartDate = $('#startdate').val();
+         EndDate = $('#enddate').val();
         GetTop10TicketRaiseHistory(StartDate, EndDate);
         //GetTop10DetectedIntent(StartDate, EndDate);
+    }
+
+    function exportexcel(mode) {
+     
+        window.location = "/ExcelExport/AnswerQurey?SDate=" + StartDate + "&EDate=" + EndDate + "";
+       
     }
 </script>
 <script>
@@ -122,10 +129,12 @@
                     <h3 class="box-title">Query Status  </h3>
 
                     <div class="box-tools pull-right">
+                        <button type="button" onclick="exportexcel('RaisedTickets')" class="btn btn-box-tool">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <!-- /.box-header -->

@@ -24,9 +24,10 @@
     <div class="login-box">
         <div class="login-logo">
             @*<img src=@Href("~/Content/Images/logo.png") title="Login" alt="Login">*@
+            <img src="~/Image/logo.png" height="90" width="225" />
         </div>
         <!-- /.login-logo -->
-        <p class="login-box-msg">Login </p>
+        <p class="login-box-msg">Report Login </p>
         <div class="login-box-body">
             
             @using (Html.BeginForm("getLogin", "Login", FormMethod.Post))
@@ -58,7 +59,7 @@
                         </div>
                     </div>
                     <div class="col-xs-3 pull-right no-padding" style="margin:0 15px 0 10px; ">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+                        <button type="submit" class="btn btn-danger btn-block btn-flat">Login</button>
                     </div>
                 </div>
                 if (!string.IsNullOrEmpty(Message))

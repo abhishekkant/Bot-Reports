@@ -57,7 +57,8 @@
                 <div class="container-wrapper">
                     <a href="../../" class="navbar-brand logoadmin">
 
-                        @*<img src="@Href("~/Content/images/logoAdmin.png")" />*@
+                        
+                        <img src="~/Image/roundlogo.png" height="50" width="50" />
                         BOT REPORT PANEL
                     </a>
                     <!-- Navbar Right Menu -->
@@ -84,18 +85,18 @@
                                 <ul class="dropdown-menu">
                               
                                     <li class="user-header">
-                                        <img src="~/Image/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                        <img src="~/Image/roundlogo.png" class="img-circle" alt="User Image">
                                         <p>
                                             @SessionHandler.UserName
-                                            <small>Member since april 20017</small>
+                                            <small>Welcome User..</small>
                                         </p>
                                     </li>
 
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
+                                        @*<div class="pull-left">
                                             <a href="profile.html" class="btn btn-default btn-flat hide">Profile</a>
-                                        </div>
+                                        </div>*@
                                         @*<div class="pull-right">
                                                 <a href="login.html" class="btn btn-default btn-flat">Sign out</a>
                                             </div>*@
@@ -133,9 +134,9 @@
                             <li id="Dashboard" >
                                 @Html.ActionLink("Home", "dashboard", "Home", new { Area = "" }, null)
                             </li>
-                            <li id="top10" ><a href="/home/top10">Top 10 Report</a></li>
+                            <li id="top10" ><a href="/top10/top10">Top 10 Report</a></li>
                             <li  id="addrow"><a href="/home/addrow">Train</a></li>
-                            <li id="AzureInsights"><a href="/AzureInsights/index">AzureInsights</a></li>
+                            @*<li id="AzureInsights"><a href="/AzureInsights/index">AzureInsights</a></li>*@
                         </ul>
 
                     </div>

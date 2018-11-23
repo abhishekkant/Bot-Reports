@@ -63,7 +63,7 @@ namespace ISE_Solutions.Controllers
             if (dt.Rows.Count > 0)
                 ExcelExport(dt, SDate, EDate, "Top10TicketRaiseExport");
 
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
         }
 
         public ActionResult Top10DetectedIntentExport(string SDate, string EDate)
@@ -111,7 +111,7 @@ namespace ISE_Solutions.Controllers
             }
             if(dt.Rows.Count > 0)
             ExcelExport(dt, SDate, EDate, "TOP10DetectedIntent");
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
         }
 
         public ActionResult Top10UserRaisedQusetionExport(string SDate, string EDate)
@@ -156,7 +156,7 @@ namespace ISE_Solutions.Controllers
             }
             if (dt.Rows.Count > 0)
                 ExcelExport(dt, SDate, EDate, "Top10UserRaisedQusetion");
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
         }
 
         public ActionResult AnswerQurey(string SDate, string EDate)
@@ -207,7 +207,7 @@ namespace ISE_Solutions.Controllers
             }
             if (dt.Rows.Count > 0)
                 ExcelExport(dt, SDate, EDate, "AnswerQurey");
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
         }
         public ActionResult TicketsRaised(string SDate, string EDate)
         {
@@ -269,7 +269,7 @@ namespace ISE_Solutions.Controllers
             }
             if (dt.Rows.Count > 0)
                 ExcelExport(dt, SDate, EDate, "TicketsRaised");
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
         }
         public ActionResult IntentnotunderstandExport(string SDate, string EDate)
         {
@@ -319,7 +319,106 @@ namespace ISE_Solutions.Controllers
             }
             if (dt.Rows.Count > 0)
                 ExcelExport(dt, SDate, EDate, "Intentnotunderstand");
-            return Redirect("/home/top10");
+            return Redirect("/top10/top10");
+        }
+        public ActionResult userquestion(string SDate, string EDate , string Userid)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("Userid");
+            dt.Columns.Add("Issue");
+            dt.Columns.Add("Dates");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("TotalRating");
+           
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                table = tableClient.GetTableReference("SolutionProvidedReport");
+                string StartdateString = SDate;//"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate; //"2018-11-10T00:00:00.000Z";
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
+                var SutdentListObj1 = SutdentListObj.Where(item => (item.Timestamp >= StartDate && item.Timestamp <= EndDate) && item.UserId == Userid).OrderByDescending(item => item.Timestamp).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    DataRow _rvi = dt.NewRow();
+                    _rvi["Userid"] = singleData.UserId;
+                    _rvi["Issue"] = singleData.Issue;
+                    _rvi["Status"] = singleData.IsSolved;
+                    _rvi["TotalRating"] = singleData.Rating;
+                    _rvi["Dates"] = Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
+                    dt.Rows.Add(_rvi);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            if (dt.Rows.Count > 0)
+                ExcelExport(dt, SDate, EDate, "userquestion_"+ Userid + "_");
+            return Redirect("/top10/top10");
+        }
+        public ActionResult intentquestion(string SDate, string EDate, string DetectedIntent)
+        {
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("DetectedIntent");
+            dt.Columns.Add("Issue");
+            dt.Columns.Add("Dates");
+            dt.Columns.Add("Status");
+           
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                table = tableClient.GetTableReference("SolutionProvidedReport");
+                string StartdateString = SDate;//"2018-10-25T00:00:00.000Z";
+                string EnddateString = EDate; //"2018-11-10T00:00:00.000Z";
+                DateTime StartDate = DateTime.Parse(StartdateString, System.Globalization.CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.Parse(EnddateString, System.Globalization.CultureInfo.InvariantCulture);
+
+                List<SolutionProvidedReport> SutdentListObj = RetrieveEntity<SolutionProvidedReport>();
+                var SutdentListObj1 = SutdentListObj.Where(item => ((item.Timestamp >= StartDate && item.Timestamp <= EndDate) && item.DetectedIntent == DetectedIntent)).OrderByDescending(item => item.Timestamp).ToList();
+
+                foreach (var singleData in SutdentListObj1)
+                {
+                    DataRow _rvi = dt.NewRow();
+                    _rvi["DetectedIntent"] = DetectedIntent;
+                    _rvi["Issue"] = singleData.Issue;
+                    _rvi["Status"] = singleData.IsSolved;
+                    _rvi["Dates"] = Convert.ToDateTime(singleData.Timestamp.DateTime).ToString("dd-MMM-yyyy");
+                    dt.Rows.Add(_rvi);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            if (dt.Rows.Count > 0)
+                ExcelExport(dt, SDate, EDate, "intentquestion_"+DetectedIntent+"_");
+            return Redirect("/top10/top10");
         }
         public void ExcelExport(DataTable dt, string SDate, string EDate,string filename)
         {

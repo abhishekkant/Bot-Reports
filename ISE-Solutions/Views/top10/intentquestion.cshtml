@@ -7,6 +7,8 @@
 
 <script>
 
+    var StartDate = '';
+    var EndDate = '';
 
     function GetParameterValues(param) {
         var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -45,7 +47,7 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+               // alert('Failed.' + ex);
             }
         });
 
@@ -55,8 +57,6 @@
 
     $(function () {
 
-        var StartDate = '';
-        var EndDate = '';
 
         var date = new Date();
         var day = date.getDate();
@@ -89,10 +89,15 @@
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
 
-        var StartDate = $('#startdate').val();
-        var EndDate = $('#enddate').val();
+         StartDate = $('#startdate').val();
+         EndDate = $('#enddate').val();
         Getdata(StartDate, EndDate);
         //GetTop10DetectedIntent(StartDate, EndDate);
+    }
+    function exportexcel() {
+        var DetectedIntent = GetParameterValues('id');
+        window.location = "/ExcelExport/intentquestion?SDate=" + StartDate + "&EDate=" + EndDate + "&DetectedIntent=" + DetectedIntent + "";
+
     }
 </script>
 <script>
@@ -136,10 +141,13 @@
                     <h3 class="box-title">Intent Name </h3>
 
                     <div class="box-tools pull-right">
+                        <button type="button" onclick="exportexcel()" class="btn btn-box-tool">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        @*<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>*@
                     </div>
                 </div>
                 <!-- /.box-header -->

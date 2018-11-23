@@ -196,8 +196,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Image\default-50x50.gif" />
+    <Content Include="Image\roundlogo.png" />
     <Content Include="Image\loader1.png" />
     <Content Include="Image\loader2.png" />
+    <Content Include="Image\logo.png" />
     <Content Include="Image\user2-160x160.jpg" />
     <Content Include="Image\Windows8_loader.gif" />
     <Content Include="js\angular.min.js" />

@@ -2682,6 +2682,7 @@
     <Compile Include="Controllers\ExcelExportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\top10Controller.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomAttribute\CustomAuthorizeAttribute.cs" />
     <Compile Include="DB\ConfigurationDBL.cs" />
@@ -2716,7 +2717,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MsgNotification.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Top10.cshtml" />
     <Content Include="Views\Home\addrow.cshtml" />
     <Content Include="styles\fonts\DejaVu\DejaVuSans-Bold.ttf" />
     <Content Include="styles\fonts\DejaVu\DejaVuSans-BoldOblique.ttf" />
@@ -2820,7 +2820,9 @@
     <Content Include="Views\Home\intentnotunderstand.cshtml" />
     <Content Include="Views\Home\tickets.cshtml" />
     <Content Include="Views\AzureInsights\Index.cshtml" />
-    <Content Include="Views\Home\intentquestion.cshtml" />
+    <Content Include="Views\top10\intentquestion.cshtml" />
+    <Content Include="Views\top10\Top10.cshtml" />
+    <Content Include="Views\top10\userquestion.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

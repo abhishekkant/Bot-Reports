@@ -1,21 +1,30 @@
 ﻿
 @{
-    ViewBag.Title = "tickets";
+    ViewBag.Title = "intentquestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <script>
-    var StartDate = '';
-    var EndDate = '';
-    function Getdata(StartDate, EndDate) {
 
+
+    function GetParameterValues(param) {
+        var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < url.length; i++) {
+            var urlparam = url[i].split('=');
+            if (urlparam[0] == param) {
+                return urlparam[1];
+            }
+        }
+    }
+    function Getdata(StartDate, EndDate) {
+        var DetectedIntent = GetParameterValues('id');
         var EmployeeHtml = "";
         $.ajax({
             type: 'GET',
-            url: "/home/GetTicketgrid",
+            url: "/top10/GetIntentIssesGrid",
             dataType: 'json',
-            data: { SDate: StartDate, EDate: EndDate },
+            data: { SDate: StartDate, EDate: EndDate, DetectedIntent: DetectedIntent },
             success: function (data) {
                 var _bject = JSON.parse(data);
                 // debugger;
@@ -24,16 +33,10 @@
                     // TotalUnSolved.push(value.TotalUnSolved);
                     //Dates.push(value.Dates)
                     EmployeeHtml += '<tr>';
-                    EmployeeHtml += '<td><a href="#">' + value.TicketID + '</a></td>';
+                    EmployeeHtml += '<td><a href="#">' + value.DetectedIntent + '</a></td>';
+                    EmployeeHtml += '<td>' + value.Issue + '</td>';
                     EmployeeHtml += '<td>' + value.Dates + '</td>';
-                    EmployeeHtml += '<td>' + value.QueryCategory + '</td>';
-                    EmployeeHtml += '<td>' + value.category + '</td>';
-                    EmployeeHtml += '<td>' + value.SubCategory + '</td>';
-                    EmployeeHtml += '<td>' + value.EmployeeID + '</td>';
-                    EmployeeHtml += '<td>' + value.Description + '</td>';
-                    EmployeeHtml += '<td>' + value.Status + '</td>';
-                    EmployeeHtml += '<td>' + value.Location + '</td>';
-                
+                    EmployeeHtml += '<td>' + value.SolvedStatus + '</td>';
                     EmployeeHtml += '</tr>';
                 });
 
@@ -52,7 +55,8 @@
 
     $(function () {
 
-       
+        var StartDate = '';
+        var EndDate = '';
 
         var date = new Date();
         var day = date.getDate();
@@ -85,15 +89,10 @@
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
 
-         StartDate = $('#startdate').val();
-         EndDate = $('#enddate').val();
+        var StartDate = $('#startdate').val();
+        var EndDate = $('#enddate').val();
         Getdata(StartDate, EndDate);
         //GetTop10DetectedIntent(StartDate, EndDate);
-    }
-    function exportexcel() {
-        //salert('s');
-        window.location = "/ExcelExport/TicketsRaised?SDate=" + StartDate + "&EDate=" + EndDate + "";
-
     }
 </script>
 <script>
@@ -105,13 +104,11 @@
         document.getElementById("loader").style.display = "none";
         document.getElementById("myDiv").style.display = "block";
     }
-
-   
 </script>
 
 <div id="loader"></div>
 <section class="content">
-
+    <h2>Intent questions</h2>
     <div class="row">
 
         <div class="col-md-12">
@@ -124,9 +121,10 @@
             <div class="form-group has-feedback">
                 <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
                 <div class="pull-right">
-                    <i class="fa fa-arrow-circle-left"></i><a href="/home/dashboard"> back to dashboard </a>
+                    <i class="fa fa-arrow-circle-left"></i><a href="/top10/top10"> back to top 10 report</a>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="row">
@@ -135,15 +133,13 @@
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Ticket Raised List </h3>
+                    <h3 class="box-title">Intent Name </h3>
 
                     <div class="box-tools pull-right">
-                        <button type="button" onclick="exportexcel()" class="btn btn-box-tool">
-                            <i class="fa fa-file-excel-o"></i>
-                        </button>
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <!-- /.box-header -->
@@ -152,15 +148,10 @@
                         <table class="table no-margin">
                             <thead>
                                 <tr>
-                                    <th>TicketID</th>
-                                    <th>Date</th>
-                                    <th>QueryCategory</th>
-                                    <th>Category</th>
-                                    <th>SubCategory</th>
-                                    <th>EmployeeID</th>
-                                    <th>Description</th>
+                                    <th>Detected Intent</th>
+                                    <th>Issue</th>
+                                    <th>Dates</th>
                                     <th>Status</th>
-                                    <th>Location</th>
                                 </tr>
                             </thead>
                             <tbody id="employeeReportChart"></tbody>

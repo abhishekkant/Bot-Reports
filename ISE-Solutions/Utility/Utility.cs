@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Utility
 {
@@ -16,6 +18,8 @@ namespace Utility
             //
         }
 
+
+        
 
         /// <summary>
         /// find client IP Adress

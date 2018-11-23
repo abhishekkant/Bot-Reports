@@ -1,13 +1,20 @@
 ﻿
 @{
+    ViewBag.Title = "userquestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@{
     ViewBag.Title = "intentquestion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <script>
-   
-  
+
+
     function GetParameterValues(param) {
         var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
         for (var i = 0; i < url.length; i++) {
@@ -16,15 +23,15 @@
                 return urlparam[1];
             }
         }
-    }   
+    }
     function Getdata(StartDate, EndDate) {
-        var DetectedIntent = GetParameterValues('id');
+        var Userid = GetParameterValues('id');
         var EmployeeHtml = "";
         $.ajax({
             type: 'GET',
-            url: "/home/GetIntentIssesGrid",
+            url: "/top10/GetUserQuestionHistoryReport",
             dataType: 'json',
-            data: { SDate: StartDate, EDate: EndDate, DetectedIntent: DetectedIntent },
+            data: { SDate: StartDate, EDate: EndDate, Userid: Userid },
             success: function (data) {
                 var _bject = JSON.parse(data);
                 // debugger;
@@ -33,14 +40,15 @@
                     // TotalUnSolved.push(value.TotalUnSolved);
                     //Dates.push(value.Dates)
                     EmployeeHtml += '<tr>';
-                    EmployeeHtml += '<td><a href="#">' + value.DetectedIntent + '</a></td>';
+                    EmployeeHtml += '<td>' + value.Userid + '</td>';
                     EmployeeHtml += '<td>' + value.Issue + '</td>';
                     EmployeeHtml += '<td>' + value.Dates + '</td>';
                     EmployeeHtml += '<td>' + value.SolvedStatus + '</td>';
+                    EmployeeHtml += '<td>' + value.TotalRating + '</td>';
                     EmployeeHtml += '</tr>';
                 });
 
-                $('#employeeReportChart').html(EmployeeHtml);
+                $('#questionReportChart').html(EmployeeHtml);
 
             },
             error: function (ex) {
@@ -108,9 +116,9 @@
 
 <div id="loader"></div>
 <section class="content">
-    <h2>Intent questions</h2>
+    <h2>User questions</h2>
     <div class="row">
-       
+
         <div class="col-md-12">
             <div class="form-group has-feedback">
                 <input type="date" style="width:200px;float:left; margin-right:2px" class="form-control" id="startdate" />
@@ -121,10 +129,10 @@
             <div class="form-group has-feedback">
                 <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewReport()" />
                 <div class="pull-right">
-                    <i class="fa fa-arrow-circle-left"></i><a href="/home/top10"> back to top 10 report</a>
+                    <i class="fa fa-arrow-circle-left"></i><a href="/top10/top10"> back to top 10 report</a>
                 </div>
             </div>
-         
+
         </div>
     </div>
     <div class="row">
@@ -133,7 +141,7 @@
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Intent Name </h3>
+                    <h3 class="box-title">User Questions </h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -148,13 +156,14 @@
                         <table class="table no-margin">
                             <thead>
                                 <tr>
-                                    <th>Detected Intent</th>
+                                    <th>User id</th>
                                     <th>Issue</th>
                                     <th>Dates</th>
                                     <th>Status</th>
+                                    <th>Rating</th>
                                 </tr>
                             </thead>
-                            <tbody id="employeeReportChart"></tbody>
+                            <tbody id="questionReportChart"></tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
@@ -171,4 +180,6 @@
 
 
 </section>
+
+
 

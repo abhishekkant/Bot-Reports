@@ -1,4 +1,5 @@
 ﻿
+
 @{
     ViewBag.Title = "Top10";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,11 +8,11 @@
     var StartDate = '';
     var EndDate = '';
     function GetTop10TicketRaiseHistory(StartDate, EndDate) {
-        
+
         var EmployeeHtml = "";
         $.ajax({
             type: 'GET',
-            url: "/home/GetTop10TicketRaiseHistoryReport",
+            url: "/top10/GetTop10TicketRaiseHistoryReport",
             dataType: 'json',
             data: { SDate: StartDate, EDate: EndDate },
             success: function (data) {
@@ -22,13 +23,13 @@
                    // TotalUnSolved.push(value.TotalUnSolved);
                     //Dates.push(value.Dates)
                     EmployeeHtml += '<tr>';
-                    EmployeeHtml += '<td><a href="#">' + value.EmployeeID+'</a></td>';
+                    EmployeeHtml += '<td>' + value.EmployeeID+'</td>';
                     EmployeeHtml += '<td>' + value.TicketRaisedCount +'</td>';
                     EmployeeHtml += '</tr>';
                 });
 
                 $('#employeeReportChart').html(EmployeeHtml);
-              
+
             },
             error: function (ex) {
 
@@ -42,7 +43,7 @@
         var _Html = "";
         $.ajax({
             type: 'GET',
-            url: "/home/GetTop10DetectedIntent",
+            url: "/top10/GetTop10DetectedIntent",
             dataType: 'json',
             data: { SDate: StartDate, EDate: EndDate },
             success: function (data) {
@@ -53,7 +54,7 @@
                     // TotalUnSolved.push(value.TotalUnSolved);
                     //Dates.push(value.Dates)
                     _Html += '<tr>';
-                    _Html += '<td><a href="/home/intentquestion?id=' + value.DetectedIntent+'">' + value.DetectedIntent + '</a></td>';
+                    _Html += '<td><a href="/top10/intentquestion?id=' + value.DetectedIntent+'">' + value.DetectedIntent + '</a></td>';
                     _Html += '<td>' + value.DetectedIntentCount + '</td>';
                     _Html += '</tr>';
                 });
@@ -69,10 +70,40 @@
 
     }
 
-    
+    function GetTop10UserQuestionHistory(StartDate, EndDate) {
+
+        var EmployeeHtml = "";
+        $.ajax({
+            type: 'GET',
+            url: "/top10/GetTop10UserQuestionHistoryReport",
+            dataType: 'json',
+            data: { SDate: StartDate, EDate: EndDate },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                // debugger;
+                $.each(_bject, function (key, value) {
+                    // TotalSolved.push(value.TotalSolved);
+                    // TotalUnSolved.push(value.TotalUnSolved);
+                    //Dates.push(value.Dates)
+                    EmployeeHtml += '<tr>';
+                    EmployeeHtml += '<td><a href="/top10/userquestion?id=' + value.Userid +'">' + value.Userid + '</a></td>';
+                    EmployeeHtml += '<td>' + value.QuestionCount + '</td>';
+                    EmployeeHtml += '</tr>';
+                });
+
+                $('#UserQuestionHistory').html(EmployeeHtml);
+
+            },
+            error: function (ex) {
+
+                alert('Failed.' + ex);
+            }
+        });
+
+    }
     $(function () {
 
-       
+
 
         var date = new Date();
         var day = date.getDate();
@@ -101,6 +132,7 @@
         StartDate = month2 + "/" + day2 + "/" + year2;
         GetTop10TicketRaiseHistory(StartDate, EndDate);
         GetTop10DetectedIntent(StartDate, EndDate);
+        GetTop10UserQuestionHistory(StartDate, EndDate);
     });
     //$(document).bind("kendo:skinChange", createVisitorChart);
     function ViewReport() {
@@ -109,6 +141,7 @@
         EndDate = $('#enddate').val();
         GetTop10TicketRaiseHistory(StartDate, EndDate);
         GetTop10DetectedIntent(StartDate, EndDate);
+        GetTop10UserQuestionHistory(StartDate, EndDate);
     }
 
     function exportexcel(mode)
@@ -120,7 +153,10 @@
         {
             window.location = "/ExcelExport/Top10DetectedIntentExport?SDate=" + StartDate + "&EDate=" + EndDate + "";
         }
-
+        if (mode == 'UserRaisedQusetion') {
+            window.location = "/ExcelExport/Top10UserRaisedQusetionExport?SDate=" + StartDate + "&EDate=" + EndDate + "";
+        }
+        
     }
 </script>
 <script>
@@ -136,7 +172,7 @@
 
 <div id="loader"></div>
 <section class="content">
-  
+
     <div class="row">
 
         <div class="col-md-12">
@@ -163,7 +199,6 @@
                         <button type="button" onclick="exportexcel('RaisedTickets')" class="btn btn-box-tool">
                             <i class="fa fa-file-excel-o"></i>
                         </button>
-                        @*<a id="aaaaa" href="/ExcelExport/Top10ExportToExcel?SDate='10/10/2018'&EDate='10/11/2018'" style="margin:10px;"><i class="fa fa-file-excel-o"></i></a>*@
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
                         </button>
@@ -180,13 +215,12 @@
                                     <th>Ticket Count</th>
                                 </tr>
                             </thead>
-                            <tbody id="employeeReportChart">
-                            </tbody>
+                            <tbody id="employeeReportChart"></tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
-               
+
             </div>
             <!-- /.box -->
         </div>
@@ -216,22 +250,19 @@
                                 <tr>
                                     <th>Detected Intent</th>
                                     <th>Total No.</th>
-                                   
+
                                 </tr>
                             </thead>
-                            <tbody id="IdDetectedIntent">
-                               
-
-                            </tbody>
+                            <tbody id="IdDetectedIntent"></tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.box-body -->
                 @*<div class="box-footer clearfix">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">View All Orders</a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-right">View All Orders</a>
 
-                </div>*@
+                    </div>*@
                 <!-- /.box-footer -->
             </div>
             <!-- /.box -->
@@ -239,7 +270,45 @@
 
 
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">TOP 10 User Raised Question </h3>
 
+                    <div class="box-tools pull-right">
+                        <button type="button" onclick="exportexcel('UserRaisedQusetion')" class="btn btn-box-tool">
+                            <i class="fa fa-file-excel-o"></i>
+                        </button>
+                        @*<a id="aaaaa" href="/ExcelExport/Top10ExportToExcel?SDate='10/10/2018'&EDate='10/11/2018'" style="margin:10px;"><i class="fa fa-file-excel-o"></i></a>*@
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        @*<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>*@
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Question Count</th>
+                                </tr>
+                            </thead>
+                            <tbody id="UserQuestionHistory"></tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
 
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
 </section>
+
+
 

@@ -24,7 +24,45 @@ namespace ISE_Solutions.Controllers
             return View();
         }
 
-      
+        #region LoginAuth
+        public Boolean UserAuthentication(string UserId, string Password)
+        {
+            Boolean _result = false;
+            string TotalSolved = String.Empty; string TotalUnSolved = String.Empty; string Dates = String.Empty;
+            List<SolutionProvidedReportValues> IsSolvedRecordJson = new List<SolutionProvidedReportValues>();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+
+            try
+            {
+                string a = Convert.ToString(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+                Microsoft.WindowsAzure.Storage.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                table = tableClient.GetTableReference("ReportsUsers");
+
+               // await table.CreateIfNotExistsAsync();
+
+                List<HomeLoginViewModel> SutdentListObj = RetrieveEntity<HomeLoginViewModel>();
+
+                var SutdentListObj1 = SutdentListObj.Where(item => item.Username == UserId && item.Password == Password).ToList();
+
+               if(SutdentListObj1.Count >0)
+                {
+                    _result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+
+            return _result;
+        }
+        #endregion
         #region DashboardChart
         [HttpGet]
         public async Task<JsonResult> GetIsSolvedReport(string SDate, string EDate)

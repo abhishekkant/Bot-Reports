@@ -36,27 +36,21 @@ namespace ISE_Solutions.Controllers
 
         public ActionResult getLogin(HomeLoginViewModel objLogin)
         {
-
+            HomeController _obj = new HomeController();
             if (ModelState.IsValid)
             {
-               // return RedirectToAction("Dashboard", "Home");
-
-                //UserAuthViewModel model = configuration.UserAuthentication(objLogin.UserId, objLogin.Password); ///objLogin.Password.Encrypt()
-
-                if (objLogin.UserId=="Admin" && objLogin.Password=="admin@123")
+                bool _result = false;
+                _result = _obj.UserAuthentication(objLogin.Username, objLogin.Password); ///objLogin.Password.Encrypt()
+                if (_result == true)
                 {
                     SessionHandler.UserID = 12344;
                     SessionHandler.UserName = "Admin";
                     SessionHandler.UserRole = "Admin";
                     SessionHandler.RoleID = 1;
-                   // FormsAuthentication.RedirectFromLoginPage(model.UserAuthDetail.UserName, false);
-                    //FormsAuthentication.SetAuthCookie(model.UserAuthDetail.UserName, false);
                     return RedirectToAction("Dashboard", "Home");
                 }
                 else
                 {
-                    return RedirectToAction("Dashboard", "Home");
-                    //ModelState.Clear();
                     ViewData["Message"] = "Invalid username or password";
 
                 }

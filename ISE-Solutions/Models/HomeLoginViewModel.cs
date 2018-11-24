@@ -10,6 +10,7 @@ namespace ISE_Solutions.Model
     {
         public string Issue { get; set; }
         public string UserId { get; set; }
+        public string PassWord { get; set; }
         public DateTime Timestamp1 { get; set; }
         public bool? IsSolved { get; set; }
         public int Rating { get; set; }
@@ -113,10 +114,10 @@ namespace ISE_Solutions.Model
         public string mobileNo { get; set; }
 
     }
-    public class HomeLoginViewModel
+    public class HomeLoginViewModel:TableEntity
     {
         [Required]
-        public string UserId { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -240,8 +240,6 @@
             }
         });
     }
-
-
     function createTicketHistoryChart(StartDate, EndDate) {
         var TotalAvgRating = [];
         var TotalUnSolved = [];
@@ -295,8 +293,6 @@
             }
         });
     }
-
-
     function createAvgRatingChart(StartDate, EndDate) {
         var TotalAvgRating = [];
         var TotalUnSolved = [];
@@ -520,7 +516,6 @@
             }
         });
     }
-
     function IntentNotunderstoodChart(StartDate, EndDate) {
         var IntentNotunderstood = [];
         var TotalUnSolved = [];
@@ -592,7 +587,140 @@
             }
         });
     }
-    
+    function UserRequestCount(Timespan, Interval) {
+        var Uniquecount = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/AzureInsights/GetRequestCount",
+            dataType: 'json',
+            data: { Timespan: Timespan, Interval: Interval },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    Uniquecount.push(value.Uniquecount);
+                    Dates.push(value.Date)
+                });
+
+                $("#UserRequestCounnt").kendoChart({
+
+                    title: {
+                        text: "Requests Count"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "line",
+                        style: "smooth"
+                    },
+
+                    series: [{
+                        name: "Request count",
+                        data: Uniquecount,
+                        color: 'green'
+                    }],
+                    valueAxis: {
+                        // max: 50,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                //alert('Failed.' + ex);
+            }
+        });
+
+    }
+    function UsersessionsCount(Timespan, Interval) {
+        var Uniquecount = [];
+        var Dates = [];
+        $.ajax({
+            type: 'GET',
+            url: "/AzureInsights/GetsessionsCount",
+            dataType: 'json',
+            data: { Timespan: Timespan, Interval: Interval },
+            success: function (data) {
+                var _bject = JSON.parse(data);
+                $.each(_bject, function (key, value) {
+                    Uniquecount.push(value.Uniquecount);
+                    Dates.push(value.Date)
+                });
+
+                $("#UserSessionCounnt").kendoChart({
+
+                    title: {
+                        text: "Session Count"
+                    },
+                    legend: {
+                        visible: false
+                    },
+                    seriesDefaults: {
+                        type: "line",
+                        style: "smooth"
+                    },
+
+                    series: [{
+                        name: "Session count",
+                        data: Uniquecount,
+                        color: 'black'
+                    }],
+                    valueAxis: {
+                        // max: 50,
+                        line: {
+                            visible: false
+                        },
+                        minorGridLines: {
+                            visible: true
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    categoryAxis: {
+                        categories: Dates,// ["29, Oct 2018", "28, Oct 2018", "27, Oct 2018", "26, Oct 2018", "25, Oct 2018"],
+                        majorGridLines: {
+                            visible: false
+                        },
+                        labels: {
+                            rotation: "auto"
+                        }
+                    },
+                    tooltip: {
+                        visible: true,
+                        template: "#= series.name #: #= value #"
+                    }
+                });
+            },
+            error: function (ex) {
+
+                //alert('Failed.' + ex);
+            }
+        });
+
+    }
     $(function () {
         
         var StartDate ='';
@@ -631,7 +759,8 @@
         TicketRaisedChart(StartDate, EndDate);
         ExceptionLogChart(StartDate, EndDate);
         IntentNotunderstoodChart(StartDate, EndDate);
-
+        UserRequestCount("P7D", "P1D");
+        UsersessionsCount("P7D", "P1D");
         $('#date-time').html('(' + day2 + "/" + month2 + "/" + year2 + ')   to   (' + day + "/" + month + "/" + year + ')');
         myFunction();
     });
@@ -640,7 +769,7 @@
 
         var StartDate = $('#startdate').val();
         var EndDate = $('#enddate').val();
-
+       
         createVisitorChart(StartDate, EndDate);
         createRatingChart(StartDate, EndDate);
         createAvgRatingChart(StartDate, EndDate);
@@ -651,6 +780,13 @@
         IntentNotunderstoodChart(StartDate, EndDate);
        // $('#date-time').html('(' + StartDate + ')   to   (' + EndDate + ')');
         $('#date-time').css('display', 'none');
+    }
+    function ViewInsightReport() {
+        var Timespan = $('#Timespan').val();
+        var Interval = $('#Interval').val();
+
+        UserRequestCount(Timespan, Interval);
+        UsersessionsCount(Timespan, Interval);
     }
 </script>
 
@@ -759,6 +895,77 @@
             </div>
         </a>
     </div>
+
+          <br />
+          <div class="col-md-12" style="background-color:pink;margin:5px">
+              <p id="daxte-time" style="text-align:center"></p>
+          </div>
+          <br />
+          <div class="row">
+              <div class="col-md-12">
+                  @*<div class="form-group has-feedback">
+                    <input type="date" style="width:200px;float:left; margin-right:2px" class="form-control" id="startdate" />
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="date" style="width:200px;float:left;margin-right:2px" class="form-control" id="enddate" />
+                </div>*@
+
+                  <select class="form-control" style="width:200px;float:left; margin-right:2px" id="Timespan" name="Timespan">
+                      <option>Select Timespan</option>
+                      <option value="PT12H">Last 12 Hours</option>
+                      <option value="P1D" >Last 1 Day</option>
+                      <option value="P1DT12H">Last 1.5 Day</option>
+                      <option value="P1DT12H">Last 1.5 Day</option>
+                      <option value="P7D" selected="selected">Last 7 Day</option>
+                      <option value="P10D">Last 10 Day</option>
+                      <option value="P15D">Last 15 Day</option>
+                      <option value="P30D">Last 30 Day</option>
+                      <option value="2018-11-18/PT3H">3 hour, 3 Day Ago</option>
+                  </select>
+
+                  <select class="form-control" style="width:200px;float:left; margin-right:2px" id="Interval" name="Interval">
+                      <option>Select Interval</option>
+                      <option value="PT30M">30 Minutes</option>
+                      <option value="PT1H">1 Hour</option>
+                      <option value="PT3H">3 Hour</option>
+                      <option value="P1D" selected="selected">1 Day</option>
+                  </select>
+
+
+
+                  <div class="form-group has-feedback">
+                      <input type="button" id="viewbtn" value="View Report" class="btn bg-green" onclick="ViewInsightReport()" />
+                  </div>
+              </div>
+            
+          </div>
+          <div class="row">
+
+              <div class="col-md-6">
+                  <div id="example">
+                      <div class="demo-section k-content wide">
+                          <div id="UserRequestCounnt" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                      </div>
+
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div id="example">
+                      <div class="demo-section k-content wide">
+                          <div id="UserSessionCounnt" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                      </div>
+
+                  </div>
+              </div>
+
+              @*<div class="col-md-6">
+                <div id="example">
+                    <div class="demo-section k-content wide">
+                        <div id="Ratingchart" style="background: center no-repeat url('../content/shared/styles/world-map.png');"></div>
+                    </div>
+                </div>
+            </div>*@
+          </div>
     @*<div id="example">
         <div class="box wide">
             <h4>Advanced Export options</h4>

@@ -15,7 +15,7 @@
 <script src="../content/shared/js/console.js"></script>
 
 <script>
-    function createVisitorChart(Timespan, Interval) {
+    function UserSessionCounnt(Timespan, Interval) {
         var Uniquecount = [];
         var Dates = [];
         $.ajax({
@@ -77,14 +77,14 @@
             },
             error: function (ex) {
 
-                alert('Failed.' + ex);
+                //alert('Failed.' + ex);
             }
         });
 
     }
 
     $(function () {
-        createVisitorChart("P1D", "PT1H");
+        UserSessionCounnt("P1D", "PT1H");
     });
 
     function ViewReport() {
@@ -92,7 +92,7 @@
         var Timespan = $('#Timespan').val();
         var Interval = $('#Interval').val();
 
-        createVisitorChart(Timespan, Interval);
+        UserSessionCounnt(Timespan, Interval);
        // $('#date-time').css('display', 'none');
     }
 </script>

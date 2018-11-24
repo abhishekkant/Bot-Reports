@@ -22,9 +22,9 @@ namespace ISE_Solutions.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetUserCount(string Timespan, string Interval)
+        public JsonResult GetRequestCount(string Timespan, string Interval)
         {
-            var webAddr = "https://api.applicationinsights.io/v1/apps/"+ AzureInsightsApplicationID + "/metrics/users/count?timespan="+ Timespan + "&interval="+ Interval + "";//&top=10
+            var webAddr = "https://api.applicationinsights.io/v1/apps/"+ AzureInsightsApplicationID + "/metrics/requests/count?timespan=" + Timespan + "&interval="+ Interval + "";//&top=10
             var httpWebRequest = (System.Net.HttpWebRequest)WebRequest.Create(webAddr);
 
             httpWebRequest.ContentType = "application/json";
@@ -38,14 +38,14 @@ namespace ISE_Solutions.Controllers
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
                     var result = streamReader.ReadToEnd();
-                    result = result.Replace("users/count", "userscount");
+                    result = result.Replace("requests/count", "userscount");
                     var model = JsonConvert.DeserializeObject<RootObject>(result);
                    
                     foreach (var singleData in model.value.segments)
                     {
                        
                         SolutionResult resultdata = new SolutionResult();
-                        resultdata.Uniquecount = singleData.userscount.unique;
+                        resultdata.Uniquecount = singleData.userscount.sum;
                         resultdata.Date = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(singleData.end), INDIAN_ZONE).ToString("dd MMM, HH:MM"); 
                         ResultRecordJson.Add(resultdata);
                     }
@@ -64,9 +64,53 @@ namespace ISE_Solutions.Controllers
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult GetsessionsCount(string Timespan, string Interval)
+        {
+            var webAddr = "https://api.applicationinsights.io/v1/apps/" + AzureInsightsApplicationID + "/metrics/sessions/count?timespan=" + Timespan + "&interval=" + Interval + "";//&top=10
+            var httpWebRequest = (System.Net.HttpWebRequest)WebRequest.Create(webAddr);
+
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Headers.Add("x-api-key", "" + AzureInsightsAppKey + "");
+            httpWebRequest.ContentLength = 0;
+            httpWebRequest.Method = "GET";
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            List<SolutionResult> ResultRecordJson = new List<SolutionResult>();
+            try
+            {
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    result = result.Replace("sessions/count", "userscount");
+                    var model = JsonConvert.DeserializeObject<RootObject>(result);
+
+                    foreach (var singleData in model.value.segments)
+                    {
+
+                        SolutionResult resultdata = new SolutionResult();
+                        resultdata.Uniquecount = singleData.userscount.unique;
+                        resultdata.Date = TimeZoneInfo.ConvertTimeFromUtc(Convert.ToDateTime(singleData.end), INDIAN_ZONE).ToString("dd MMM, HH:MM");
+                        ResultRecordJson.Add(resultdata);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Utility.Utility.GenrateLog(ex.Message);
+            }
+            finally
+            {
+
+            }
+            var output = JsonConvert.SerializeObject(ResultRecordJson);
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
         public class UsersCount
         {
             public int unique { get; set; }
+            public int sum { get; set; }
+            
         }
 
         public class Segment
